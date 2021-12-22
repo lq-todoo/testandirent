@@ -10,6 +10,12 @@
         <xpath expr="//field[@name='user_ids']" position="after">
           <field name="helpdesk_ticket_id"/>
         </xpath>
+        <xpath expr="//field[@name='planned_date_begin']" position="attributes">
+          <attribute name="required">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='planned_date_end']" position="attributes">
+          <attribute name="required">1</attribute>
+        </xpath>
       </field>
     </record>
 
