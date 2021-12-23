@@ -19,6 +19,7 @@
             <field name="x_project" options="{'no_create':true}"/>
             <field name="x_family" options="{'no_create':true}"/>
             <field name="x_sub_group" options="{'no_create':true}"/>
+            <field name="current_location"/>
             <field name="close_date"/>
             <field name="close_hours"/>
         </xpath>
@@ -33,6 +34,9 @@
         </xpath>
         <xpath expr="//field[@name='partner_id']" position="attributes">
           <attribute name="domain">[["x_ticket_show","=",True]]</attribute>
+        </xpath>
+        <xpath expr="//field[@name='tag_ids']" position="attributes">
+          <attribute name="required">1</attribute>
         </xpath>
       </field>
     </record>

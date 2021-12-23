@@ -7,8 +7,9 @@
       <field name="model">helpdesk_project</field>
       <field name="arch" type="xml">
         <tree string="tree">
-          <field name="name"/>
-          <field name="x_code"/>
+            <field name="name"/>
+            <field name="x_code"/>
+            <field name="current_location"/>
         </tree>
       </field>
     </record>
@@ -27,6 +28,7 @@
               </group>
               <group name="group_right">
                   <field name="x_code"/>
+                  <field name="current_location"/>
               </group>
             </group>
             <group name="group_top">
