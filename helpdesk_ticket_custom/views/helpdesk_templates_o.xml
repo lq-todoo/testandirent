@@ -190,6 +190,22 @@
                                                     <div class="form-check">
                                                         <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_17" name="tag_ids" value="17" required=""/>
                                                         <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_17" style="font-weight: normal">
+                                                            Correo
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_18" name="tag_ids" value="18" required=""/>
+                                                        <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_18" style="font-weight: normal">
+                                                            Cambio Equipo
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_19" name="tag_ids" value="19" required=""/>
+                                                        <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_19" style="font-weight: normal">
                                                             Otros
                                                         </label>
                                                     </div>

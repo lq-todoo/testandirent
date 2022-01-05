@@ -17,9 +17,9 @@
             <field name="x_visibility_related" attrs="{'invisible':True}"/>
             <field name="x_classification" attrs="{'invisible': [['x_visibility_related', '!=', True]]}"/>
             <field name="x_project" options="{'no_create':true}"/>
+            <field name="current_location"/>
             <field name="x_family" options="{'no_create':true}"/>
             <field name="x_sub_group" options="{'no_create':true}"/>
-            <field name="current_location"/>
             <field name="close_date"/>
             <field name="close_hours"/>
         </xpath>
