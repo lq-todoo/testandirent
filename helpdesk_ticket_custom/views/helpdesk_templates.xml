@@ -46,7 +46,7 @@
                                                 <span class="s_website_form_mark">*</span>
                                             </label>
                                             <div class="col-sm col-xs-12">
-                                                <input id="helpdesk1" type="text" class="form-control s_website_form_input" name="partner_name" t-att-value="partner_id.name"/>
+                                                <input id="helpdesk1" type="text" class="form-control s_website_form_input" name="partner_name" t-att-value="partner_id.name" readonly="true"/>
                                             </div>
                                         </div>
                                     </div>
@@ -57,7 +57,7 @@
                                                 <span class="s_website_form_mark">*</span>
                                             </label>
                                             <div class="col-sm col-xs-12">
-                                                <input id="helpdesk2" type='email' class='form-control s_website_form_input' name="partner_email" t-att-value="partner_id.email"/>
+                                                <input id="helpdesk2" type='email' class='form-control s_website_form_input' name="partner_email" t-att-value="partner_id.email" readonly="true"/>
                                             </div>
                                         </div>
                                     </div>
