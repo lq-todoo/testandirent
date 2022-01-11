@@ -18,6 +18,7 @@
             <field name="x_classification" attrs="{'invisible': [['x_visibility_related', '!=', True]]}"/>
             <field name="x_project" options="{'no_create':true}"/>
             <field name="current_location"/>
+            <field name="location"/>
             <field name="x_family" options="{'no_create':true}"/>
             <field name="x_sub_group" options="{'no_create':true}"/>
             <field name="close_date"/>
