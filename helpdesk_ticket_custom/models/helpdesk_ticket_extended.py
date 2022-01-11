@@ -20,7 +20,7 @@ class helpdesk_ticket_extended(models.Model):
                                  ('Medellín', 'Medellín'),
                                  ('Barranquilla', 'Barranquilla')
                                  ],
-                                string='Locación', help='Indica la ciudad donde se ejecuta el proyecto')
+                                string='Locación', help='Indica la ciudad donde se ejecuta el proyecto', required="True")
 
     # Se aplica un decorador que detecta el cambio del campo partner_id
     @api.onchange('partner_id')
