@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+        <!-- Se hereda el campo de ticket en el modelo de tareas  -->
+    <record id="mail_activity_extended" model="ir.ui.view">
+      <field name="name">mail_activity_inherit</field>
+      <field name="model">mail.activity</field>
+      <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='user_id']" position="attributes">
+          <attribute name="options">{"no_create":true}</attribute>
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+</odoo>
