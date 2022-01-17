@@ -21,6 +21,7 @@
         </xpath>
         <xpath expr="//field[@name='partner_id']" position="attributes">
           <attribute name="options">{"no_create":true}</attribute>
+          <attribute name="domain">[["x_ticket_show","=",True]]</attribute>
         </xpath>
         <xpath expr="//field[@name='tag_ids']" position="attributes">
           <attribute name="options">{"no_create":true}</attribute>
