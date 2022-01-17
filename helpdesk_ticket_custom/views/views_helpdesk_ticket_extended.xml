@@ -7,38 +7,45 @@
       <field name="model">helpdesk.ticket</field>
       <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
       <field name="arch" type="xml">
-        <xpath expr="//field[@name='tag_ids']" position="after">
-            <field name="create_date"/>
-            <field name="create_uid"/>
-            <field name="__last_update"/>
-            <field name="write_uid"/>
-        </xpath>
-        <xpath expr="//field[@name='partner_phone']" position="after">
-            <field name="x_visibility_related" attrs="{'invisible':True}"/>
-            <field name="x_classification" attrs="{'invisible': [['x_visibility_related', '!=', True]]}"/>
-            <field name="x_project" options="{'no_create':true}"/>
-            <field name="current_location"/>
-            <field name="location"/>
-            <field name="x_family" options="{'no_create':true}"/>
-            <field name="x_sub_group" options="{'no_create':true}"/>
-            <field name="close_date"/>
-            <field name="close_hours"/>
-        </xpath>
-        <xpath expr="//field[@name='ticket_type_id']" position="attributes">
-          <attribute name="options">{"no_create":true}</attribute>
-        </xpath>
-        <xpath expr="//field[@name='tag_ids']" position="attributes">
-          <attribute name="options">{"no_create":true}</attribute>
-        </xpath>
-        <xpath expr="//field[@name='partner_id']" position="attributes">
-          <attribute name="options">{"no_create":true}</attribute>
-        </xpath>
-        <xpath expr="//field[@name='partner_id']" position="attributes">
-          <attribute name="domain">[["x_ticket_show","=",True]]</attribute>
-        </xpath>
-        <xpath expr="//field[@name='tag_ids']" position="attributes">
-          <attribute name="required">1</attribute>
-        </xpath>
+          <xpath expr="//field[@name='tag_ids']" position="after">
+              <field name="create_date"/>
+              <field name="create_uid"/>
+              <field name="__last_update"/>
+              <field name="write_uid"/>
+          </xpath>
+          <xpath expr="//field[@name='partner_phone']" position="after">
+              <field name="x_visibility_related" attrs="{'invisible':True}"/>
+              <field name="x_classification" attrs="{'invisible': [['x_visibility_related', '!=', True]]}"/>
+              <field name="x_project" options="{'no_create':true}"/>
+              <field name="current_location"/>
+              <field name="location"/>
+              <field name="x_family" options="{'no_create':true}"/>
+              <field name="x_sub_group" options="{'no_create':true}"/>
+              <field name="close_date"/>
+              <field name="close_hours"/>
+          </xpath>
+          <xpath expr="//field[@name='ticket_type_id']" position="attributes">
+              <attribute name="options">{"no_create":true}</attribute>
+          </xpath>
+          <xpath expr="//field[@name='tag_ids']" position="attributes">
+              <attribute name="options">{"no_create":true}</attribute>
+          </xpath>
+          <xpath expr="//field[@name='user_id']" position="attributes">
+              <attribute name="options">{"no_create":true}</attribute>
+          </xpath>
+          <xpath expr="//field[@name='partner_id']" position="attributes">
+              <attribute name="options">{"no_create":true}</attribute>
+              <attribute name="domain">[["x_ticket_show","=",True]]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='tag_ids']" position="attributes">
+              <attribute name="required">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='email_cc']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='ticket_type_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
       </field>
     </record>
   </data>
