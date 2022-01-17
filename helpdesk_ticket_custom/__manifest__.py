@@ -34,6 +34,7 @@
                 'industry_fsm',
                 'website_helpdesk_form',
                 'contacts',
+                'base_automation',
                 ],
 
     # always loaded
@@ -50,7 +51,7 @@
         'views/views_helpdesk_users_extended.xml',
         'views/views_toggle_ticket_show.xml',
         'views/helpdesk_templates_o.xml',
-        'data/automation.xml',
+        #'data/automation.xml',
         #'views/assets.xml',
     ],
     'license': 'LGPL-3',

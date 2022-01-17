@@ -16,6 +16,16 @@
         <xpath expr="//field[@name='planned_date_end']" position="attributes">
           <attribute name="required">1</attribute>
         </xpath>
+        <xpath expr="//field[@name='user_ids']" position="attributes">
+          <attribute name="options">{"no_create":true}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='partner_id']" position="attributes">
+          <attribute name="options">{"no_create":true}</attribute>
+          <attribute name="domain">[["x_ticket_show","=",True]]</attribute>
+        </xpath>
+        <xpath expr="//field[@name='tag_ids']" position="attributes">
+          <attribute name="options">{"no_create":true}</attribute>
+        </xpath>
       </field>
     </record>
 
