@@ -49,9 +49,6 @@
           <xpath expr="//field[@name='ticket_type_id']" position="attributes">
               <attribute name="invisible">1</attribute>
           </xpath>
-          <xpath expr="//field[@name='partner_email']" position="attributes">
-              <attribute name="readonly">1</attribute>
-          </xpath>
           <xpath expr="//field[@name='partner_phone']" position="attributes">
               <attribute name="readonly">1</attribute>
           </xpath>
