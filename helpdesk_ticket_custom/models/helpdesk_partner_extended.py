@@ -18,7 +18,7 @@ class helpdesk_partner_extended(models.Model):
     # Se aplica un decorador que detecta el cambio
     @api.onchange('x_ticket_show', 'x_project', 'edit_records')
     def _domain_onchange_x_project(self):
-        return {'domain': {'x_project': [('partner_id', "in", self.parent_id.id)]}}
+        return {'domain': {'x_project': ['&', ('partner_id', 'in', self.parent_id.id), ('company_type', '=', 'person')]}}
 
 
 

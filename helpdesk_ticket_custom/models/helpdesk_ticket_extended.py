@@ -18,9 +18,16 @@ class helpdesk_ticket_extended(models.Model):
                                    help='Indica la ubicación del proyecto')
     location = fields.Selection([('Bogotá', 'Bogotá'),
                                  ('Medellín', 'Medellín'),
-                                 ('Barranquilla', 'Barranquilla')
+                                 ('Barranquilla', 'Barranquilla'),
                                  ],
                                 string='Locación', help='Indica la ciudad donde se ejecuta el proyecto', required="True")
+
+    ticket_type = fields.Selection([('1', 'Ticket Interno'),
+                                    ('2', 'Ticket Externo')],
+                                   string='Tipo de ticket',
+                                   help='Permite definir si es un ticket interno o un ticket desde el sitio web',
+                                   required="True", default='2')
+
 
     # Se aplica un decorador que detecta el cambio del campo partner_id
     @api.onchange('partner_id')

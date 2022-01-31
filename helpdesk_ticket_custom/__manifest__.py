@@ -14,7 +14,11 @@
         This module creates new models and fields to extend the functionality of the helpdesk tickets,
         and website tickets form
         
+        15.0.1
+        15.0.2
+        15.1.0 
         15.2.0 industry fsm suport
+        15.3.0 Added filter on website for internal and external tickets
         """,
 
     'description': """
@@ -28,7 +32,7 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'helpdesk',
-    'version': '2.0',
+    'version': '3.0',
 
     # any module necessary for this one to work correctly
     'depends': [
@@ -54,10 +58,9 @@
         'views/helpdesk_templates_o.xml',
         #'views/assets.xml',
     ],
-    
     'installable': True,
     'application': True,
-    
+
     'assets': {
         'web.assets_frontend': [
             'helpdesk_ticket_custom/static/src/js/script.js',
