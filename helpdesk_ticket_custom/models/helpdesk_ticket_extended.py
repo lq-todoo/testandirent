@@ -7,7 +7,7 @@ class helpdesk_ticket_extended(models.Model):
 
     x_visibility_related = fields.Boolean(string='Campo oculto', related='team_id.x_visibility', store=True,
                                           readonly=True)
-    x_classification = fields.Many2one(comodel_name='helpdesk_classification', string='clasificación')
+    x_classification = fields.Many2one(comodel_name='helpdesk_classification', string='Clasificación')
     x_project = fields.Many2one(comodel_name='helpdesk_project', string='Proyecto', required="True",
                                 help='El proyecto está relacionado con su respectivo centro de costo')
     x_family = fields.Many2one(comodel_name='helpdesk_family', string='Familia', required="True",
@@ -20,13 +20,14 @@ class helpdesk_ticket_extended(models.Model):
                                  ('Medellín', 'Medellín'),
                                  ('Barranquilla', 'Barranquilla'),
                                  ],
-                                string='Locación', help='Indica la ciudad donde se ejecuta el proyecto', required="True")
+                                string='Locación', help='Indica la ciudad donde se ejecuta el proyecto',
+                                store=True, required="True")
 
     ticket_type = fields.Selection([('1', 'Ticket Interno'),
                                     ('2', 'Ticket Externo')],
                                    string='Tipo de ticket',
                                    help='Permite definir si es un ticket interno o un ticket desde el sitio web',
-                                   required="True", default='2')
+                                   required="True", store=True, default='2')
 
 
     # Se aplica un decorador que detecta el cambio del campo partner_id
@@ -38,6 +39,12 @@ class helpdesk_ticket_extended(models.Model):
     @api.onchange('x_family')
     def _domain_ochange_x_familia(self):
         return{'domain': {'x_sub_group': [('x_family', "=", self.x_family.id)]}}
+
+
+
+
+
+
 
 
 
