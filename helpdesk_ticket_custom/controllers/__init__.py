@@ -2,3 +2,4 @@
 
 from . import controllers
 from . import form
+from . import portal
