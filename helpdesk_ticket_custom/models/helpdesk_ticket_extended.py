@@ -21,7 +21,7 @@ class helpdesk_ticket_extended(models.Model):
                                  ('Barranquilla', 'Barranquilla'),
                                  ],
                                 string='Locación', help='Indica la ciudad donde se ejecuta el proyecto',
-                                store=True, required="True")
+                                store=True)
 
     ticket_type = fields.Selection([('1', 'Ticket Interno'),
                                     ('2', 'Ticket Externo')],
