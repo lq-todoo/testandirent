@@ -11,10 +11,14 @@
     'name': "andirent_theme",
 
     'summary': """
-        15.0.2 the color navy blue, green and andirenmt background is added""",
+        15.0.2 the color navy blue, green and andirenmt background is added.
+        15.1.0 The odoo icon is replaced by the andirent icon in desktop and mobile versions.
+        15.1.1 background correction in mobile mode
+    
+        """,
 
     'description': """
-        theme that adds andirent colors
+        theme that adds andirent colors.
     """,
 
     'author': "Andirent  Author: Julián Toscano",
@@ -28,6 +32,10 @@
         'base',
         'web',
         'web_enterprise',
+    ],
+
+    'data': [
+        'views/webclient_templates_custom.xml',
     ],
 
     'installable': True,
