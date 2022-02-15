@@ -43,23 +43,24 @@ class CustomerPortal(portal.CustomerPortal):
     @http.route(['/my/tickets', '/my/tickets/page/<int:page>'], type='http', auth="user", website=True)
     def my_helpdesk_tickets(self, page=1, date_begin=None, date_end=None, sortby=None, filterby='createby', search=None, groupby='none', search_in='content', **kw):
         values = self._prepare_portal_layout_values()
-
-        ticket = request.env['helpdesk.ticket'].sudo().search([])
+        # Optiene el usuario actual
+        users = request.env.user.ids
 
         searchbar_sortings = {
             'date': {'label': _('Newest'), 'order': 'create_date desc'},
             'name': {'label': _('Subject'), 'order': 'name'},
+            'stage': {'label': _('Stage'), 'order': 'stage_id'},
             'stage': {'label': _('Stage'), 'order': 'stage_id'},
             'reference': {'label': _('Reference'), 'order': 'id'},
             'update': {'label': _('Last Stage Update'), 'order': 'date_last_stage_update desc'},
         }
         searchbar_filters = {
             'all': {'label': _('All'), 'domain': [('ticket_type', '=', 2)]},
-            'createby': {'label': _('Creado por'), 'domain': ['&', ('partner_id', 'in', ticket.partner_id.ids), ('ticket_type', '=', 2)]},
-            'assigned': {'label': _('Assigned'), 'domain': ['&', ('user_id', '!=', False), ('ticket_type', '=', 2)]},
-            'unassigned': {'label': _('Unassigned'), 'domain': ['&', ('user_id', '=', False), ('ticket_type', '=', 2)]},
-            'open': {'label': _('Open'), 'domain': ['&', ('close_date', '=', False), ('ticket_type', '=', 2)]},
-            'closed': {'label': _('Closed'), 'domain': ['&', ('close_date', '!=', False), ('ticket_type', '=', 2)]},
+            'createby': {'label': _('Creado por'), 'domain': ['&', ('partner_id.user_ids', '=', users), ('ticket_type', '=', 2)]},
+            'assigned': {'label': _('Assigned'), 'domain': ['&', ('user_id', '!=', False), ('partner_id.user_ids', '=', users), ('ticket_type', '=', 2)]},
+            'unassigned': {'label': _('Unassigned'), 'domain': ['&', ('user_id', '=', False), ('partner_id.user_ids', '=', users), ('ticket_type', '=', 2)]},
+            'open': {'label': _('Open'), 'domain': ['&', ('close_date', '=', False), ('partner_id.user_ids', '=', users), ('ticket_type', '=', 2)]},
+            'closed': {'label': _('Closed'), 'domain': ['&', ('close_date', '!=', False), ('partner_id.user_ids', '=', users), ('ticket_type', '=', 2)]},
             'last_message_sup': {'label': _('Last message is from support')},
             'last_message_cust': {'label': _('Last message is from customer')},
         }

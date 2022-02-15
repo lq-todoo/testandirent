@@ -10,3 +10,8 @@ class helpdesk_users_extended(models.Model):
                                  column1='res_partner_id',
                                  column2='helpdesk_project_id',
                                  string='Proyecto')
+
+    department_id = fields.Many2one(comodel_name='hr_department', string='Departamento',
+                                    related='employee_id.department_id', store=True,)
+
+
