@@ -29,14 +29,14 @@
   }
 
   // Scoped variables
-  $-base-bg: $o-brand-odoo; // change to get variations on the fly (eg. 'dark mode')
+  // Se cambia el color original base
+  $-base-bg: #009ca8; // change to get variations on the fly (eg. 'dark mode')
   $-base-color: color-yiq($-base-bg);
 
   // ====== Top-Bar
   .o_burger_menu_topbar {
     flex: 0 0 $o-navbar-height;
-    //     se modifica el color
-    background: #009ca8;
+    background: $-base-bg;
     color: $-base-color;
     @extend %-main-entries-size;
 
@@ -56,12 +56,10 @@
 
   // ====== Menu content container (both App's and User's entries)
   .o_burger_menu_content {
-    //     se modifica el color
-    background: #009ca8;
+    background: $o-view-background-color;
 
     &.o_burger_menu_dark {
-    //       se modifica el color
-    background-color: #009ca8;
+      background-color: darken($-base-bg, 5%);
     }
 
     // Menu entries size and layout
@@ -181,8 +179,7 @@
 
 // Apps Switcher adjustments
 body.o_home_menu_background .o_burger_menu_topbar .dropdown-toggle {
-// modificación de color
-  background: #009ca8;
+  background: $o-view-background-color;
   color: $o-main-headings-color;
 }
 
