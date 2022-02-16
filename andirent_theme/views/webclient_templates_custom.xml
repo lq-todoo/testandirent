@@ -16,7 +16,7 @@
 
                 <!-- Windows Phone -->
                 <meta name="msapplication-navbutton-color" content="#009ca8"/>
-                <meta name="msapplication-TileColor" content="#875A7B"/>
+                <meta name="msapplication-TileColor" content="#009ca8"/>
                 <meta name="msapplication-TileImage" content="/andirent_theme/static/img/mobile-icons/windows-144x144.png"/>
             </t>
         </xpath>
