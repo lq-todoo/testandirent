@@ -11,7 +11,7 @@ class helpdesk_task_extended(models.Model):
 
     department = fields.Many2many(comodel_name='hr.department', relation='x_hr_department_project_task_rel',
                                   column1='project_task_id', column2='hr_department_id',
-                                  string='Departamento', compute='_get_department', store=True,)
+                                  string='Departamento', compute='_get_department', store=True)
 
     # Relaciona el departamento con el empleado asignado
     @api.depends('user_ids')
