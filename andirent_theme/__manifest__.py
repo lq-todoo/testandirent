@@ -45,11 +45,11 @@
         'web._assets_common_styles': [
             ('replace', 'web_enterprise/static/src/legacy/scss/primary_variables.scss', 'andirent_theme/static/src/legacy/scss/primary_variables.scss'),
             ('replace', 'web_enterprise/static/src/legacy/scss/ui.scss', 'andirent_theme/static/src/legacy/scss/ui.scss'),
-            # ('replace', 'web_enterprise/static/src/webclient/burger_menu/burger_menu.scss', 'andirent_theme/static/src/webclient/burger_menu/burger_menu.scss'),
         ],
 
         'web.assets_backend': [
             ('replace', 'web_enterprise/static/src/webclient/burger_menu/burger_menu.scss', 'andirent_theme/static/src/webclient/burger_menu/burger_menu.scss'),
+            ('replace', 'web/static/src/webclient/loading_indicator/loading_indicator.scss', 'andirent_theme/static/src/webclient/loading_indicator/loading_indicator.scss'),
         ]
     },
 
