@@ -21,6 +21,7 @@
         15.3.0 Added filter on website for internal and external tickets
         15.3.1 fix filter create by on website
         15.4.0 the department field is added to be used in the filter and grouping in the view
+        15.5.0 Team grouping is added to the web portal
         """,
 
     'description': """
@@ -54,6 +55,7 @@
         'views/views_helpdesk_partner_extended.xml',
         'views/views_helpdesk_users_extended.xml',
         'views/helpdesk_templates_o.xml',
+        'views/helpdesk_portal_templates.xml',
     ],
     'installable': True,
     'application': True,

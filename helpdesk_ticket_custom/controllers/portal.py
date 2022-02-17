@@ -50,7 +50,6 @@ class CustomerPortal(portal.CustomerPortal):
             'date': {'label': _('Newest'), 'order': 'create_date desc'},
             'name': {'label': _('Subject'), 'order': 'name'},
             'stage': {'label': _('Stage'), 'order': 'stage_id'},
-            'stage': {'label': _('Stage'), 'order': 'stage_id'},
             'reference': {'label': _('Reference'), 'order': 'id'},
             'update': {'label': _('Last Stage Update'), 'order': 'date_last_stage_update desc'},
         }
@@ -72,10 +71,12 @@ class CustomerPortal(portal.CustomerPortal):
             'id': {'input': 'id', 'label': _('Search in Reference')},
             'status': {'input': 'status', 'label': _('Search in Stage')},
             'all': {'input': 'all', 'label': _('Search in All')},
+            'team': {'input': 'team_id', 'label': _('Search in team')},
         }
         searchbar_groupby = {
             'none': {'input': 'none', 'label': _('None')},
             'stage': {'input': 'stage_id', 'label': _('Stage')},
+            'team': {'input': 'team_id', 'label': _('Team')},
         }
 
         # default sort by value
@@ -144,7 +145,9 @@ class CustomerPortal(portal.CustomerPortal):
 
         if groupby == 'stage':
             grouped_tickets = [request.env['helpdesk.ticket'].concat(*g) for k, g in groupbyelem(tickets, itemgetter('stage_id'))]
-        else:
+        if groupby == 'team':
+            grouped_tickets = [request.env['helpdesk.ticket'].concat(*g) for k, g in groupbyelem(tickets, itemgetter('team_id'))]
+        if groupby == 'none':
             grouped_tickets = [tickets]
 
         values.update({
