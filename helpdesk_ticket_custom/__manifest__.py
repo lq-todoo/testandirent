@@ -19,6 +19,9 @@
         15.1.0 
         15.2.0 industry fsm suport
         15.3.0 Added filter on website for internal and external tickets
+        15.3.1 fix filter create by on website
+        15.4.0 the department field is added to be used in the filter and grouping in the view
+        15.5.0 Team grouping is added to the web portal
         """,
 
     'description': """
@@ -28,16 +31,13 @@
     'author': "Andirent  Author: Julián Toscano",
     'website': "https://www.andirent.co",
 
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
     'category': 'helpdesk',
     'version': '3.0',
 
     # any module necessary for this one to work correctly
     'depends': [
                 'helpdesk',
-                'industry_fsm',
+                'helpdesk_fsm',
                 'website_helpdesk_form',
                 'contacts',
                 ],
@@ -54,9 +54,8 @@
         'views/views_helpdesk_ticket_extended.xml',
         'views/views_helpdesk_partner_extended.xml',
         'views/views_helpdesk_users_extended.xml',
-        'views/views_toggle_ticket_show.xml',
         'views/helpdesk_templates_o.xml',
-        #'views/assets.xml',
+        'views/helpdesk_portal_templates.xml',
     ],
     'installable': True,
     'application': True,

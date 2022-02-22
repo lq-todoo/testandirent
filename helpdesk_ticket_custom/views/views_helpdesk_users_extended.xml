@@ -1,6 +1,5 @@
 <odoo>
   <data>
-
     <!-- Se hereda el campo de proyectos en el modelo de usuarios  -->
     <record id="helpdesk_users_extended" model="ir.ui.view">
       <field name="name">helpdesk_users_inherit</field>
@@ -12,8 +11,10 @@
             <field name="x_project" options="{'no_create':true}"/>
           </page>
         </xpath>
+        <xpath expr="//form[1]/sheet[1]/div[not(@name)][2]/group[1]/field[@name='partner_id']" position="after">
+          <field name="department_id"/>
+        </xpath>
       </field>
     </record>
-
   </data>
 </odoo>
