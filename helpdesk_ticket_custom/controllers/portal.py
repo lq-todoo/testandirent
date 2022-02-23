@@ -45,6 +45,10 @@ class CustomerPortal(portal.CustomerPortal):
         values = self._prepare_portal_layout_values()
         # Optiene el usuario actual
         users = request.env.user.ids
+        # Optiene partner actual
+        partner = request.env['res.partner'].search([('user_ids', '=', users)])
+        # Optiene la compañia e individuales del partner actual
+        parent = request.env['res.partner'].search(['|', ('parent_id', '=', partner.parent_id.ids), ('id', '=', partner.parent_id.ids)])
 
         searchbar_sortings = {
             'date': {'label': _('Newest'), 'order': 'create_date desc'},
@@ -54,7 +58,7 @@ class CustomerPortal(portal.CustomerPortal):
             'update': {'label': _('Last Stage Update'), 'order': 'date_last_stage_update desc'},
         }
         searchbar_filters = {
-            'all': {'label': _('All'), 'domain': [('ticket_type', '=', 2)]},
+            'all': {'label': _('All'), 'domain': ['&', ('partner_id', 'in', parent.ids), ('ticket_type', '=', 2)]},
             'createby': {'label': _('Creado por'), 'domain': ['&', ('partner_id.user_ids', '=', users), ('ticket_type', '=', 2)]},
             'assigned': {'label': _('Assigned'), 'domain': ['&', ('user_id', '!=', False), ('partner_id.user_ids', '=', users), ('ticket_type', '=', 2)]},
             'unassigned': {'label': _('Unassigned'), 'domain': ['&', ('user_id', '=', False), ('partner_id.user_ids', '=', users), ('ticket_type', '=', 2)]},
