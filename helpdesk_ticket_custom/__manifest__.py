@@ -22,7 +22,7 @@
         15.3.1 fix filter create by on website
         15.4.0 the department field is added to be used in the filter and grouping in the view
         15.5.0 Team grouping is added to the web portal
-        15.1.1 bug fix filter all on website
+        15.5.1 bug fix filter all on website
         """,
 
     'description': """
