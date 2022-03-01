@@ -13,7 +13,7 @@
                     <t t-set="title">Tickets</t>
                 </t>
                 <div t-if="not grouped_tickets" class="alert alert-info">
-                    There are currently no Ticket for your account.
+                    Actualmente no hay Tickets para su cuenta.
                 </div>
                 <t t-else="">
                     <t t-call="portal.portal_table">

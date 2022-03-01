@@ -13,3 +13,4 @@ class helpdesk_classification(models.Model):
     _sql_constraints = [
         ('name_unique', 'UNIQUE(name)', 'La clasificación ya existe'),
     ]
+

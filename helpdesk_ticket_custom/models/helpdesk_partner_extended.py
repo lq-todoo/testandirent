@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+import io
+import base64
 from odoo import models, fields, api
+
 
 # heredamos del modelo usuarios
 class helpdesk_partner_extended(models.Model):
@@ -20,6 +23,13 @@ class helpdesk_partner_extended(models.Model):
     def _domain_onchange_x_project(self):
         if self.is_company == False:
             return {'domain': {'x_project': [('partner_id', 'in', self.parent_id.ids)]}}
+
+
+
+
+
+
+
 
 
 
