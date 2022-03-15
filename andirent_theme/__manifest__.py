@@ -14,7 +14,7 @@
         15.0.2 the color navy blue, green and andirenmt background is added.
         15.1.0 The odoo icon is replaced by the andirent icon in desktop and mobile versions.
         15.1.1 background correction in mobile mode and burger menu color
-    
+        15.2.0 topic with values
         """,
 
     'description': """
