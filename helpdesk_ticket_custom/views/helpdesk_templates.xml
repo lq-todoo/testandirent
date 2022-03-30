@@ -80,14 +80,14 @@
                                             </label>
                                             <div class="col-sm">
                                                 <div class="row s_col_no_resize s_col_no_bgcolor s_website_form_multiple" data-name="tag_ids" data-display="horizontal">
-                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
-                                                        <div class="form-check">
-                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_1" name="tag_ids" value="1" required=""/>
-                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_1" style="font-weight: normal">
-                                                                Chequeo
-                                                            </label>
-                                                        </div>
-                                                    </div>
+<!--                                                    <div class="checkbox col-12 col-lg-4 col-md-6">-->
+<!--                                                        <div class="form-check">-->
+<!--                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_1" name="tag_ids" value="1" required=""/>-->
+<!--                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_1" style="font-weight: normal">-->
+<!--                                                                Chequeo-->
+<!--                                                            </label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
                                                     <div class="checkbox col-12 col-lg-4 col-md-6">
                                                         <div class="form-check">
                                                             <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_2" name="tag_ids" value="2" required=""/>
@@ -152,14 +152,14 @@
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
-                                                        <div class="form-check">
-                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_10" name="tag_ids" value="10" required=""/>
-                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_10" style="font-weight: normal">
-                                                                Mantenimiento
-                                                            </label>
-                                                        </div>
-                                                    </div>
+<!--                                                    <div class="checkbox col-12 col-lg-4 col-md-6">-->
+<!--                                                        <div class="form-check">-->
+<!--                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_10" name="tag_ids" value="10" required=""/>-->
+<!--                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_10" style="font-weight: normal">-->
+<!--                                                                Mantenimiento-->
+<!--                                                            </label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
                                                     <div class="checkbox col-12 col-lg-4 col-md-6">
                                                         <div class="form-check">
                                                             <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_11" name="tag_ids" value="11" required=""/>
@@ -184,22 +184,22 @@
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
-                                                        <div class="form-check">
-                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_14" name="tag_ids" value="14" required=""/>
-                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_14" style="font-weight: normal">
-                                                                Recepción
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
-                                                        <div class="form-check">
-                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_15" name="tag_ids" value="15" required=""/>
-                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_15" style="font-weight: normal">
-                                                                Revisión
-                                                            </label>
-                                                        </div>
-                                                    </div>
+<!--                                                    <div class="checkbox col-12 col-lg-4 col-md-6">-->
+<!--                                                        <div class="form-check">-->
+<!--                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_14" name="tag_ids" value="14" required=""/>-->
+<!--                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_14" style="font-weight: normal">-->
+<!--                                                                Recepción-->
+<!--                                                            </label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="checkbox col-12 col-lg-4 col-md-6">-->
+<!--                                                        <div class="form-check">-->
+<!--                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_15" name="tag_ids" value="15" required=""/>-->
+<!--                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_15" style="font-weight: normal">-->
+<!--                                                                Revisión-->
+<!--                                                            </label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
                                                     <div class="checkbox col-12 col-lg-4 col-md-6">
                                                         <div class="form-check">
                                                             <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_16" name="tag_ids" value="16" required=""/>
@@ -229,6 +229,38 @@
                                                             <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_19" name="tag_ids" value="19" required=""/>
                                                             <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_19" style="font-weight: normal">
                                                                 Otros
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_22" name="tag_ids" value="22" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_22" style="font-weight: normal">
+                                                                Recepción
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_23" name="tag_ids" value="23" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_23" style="font-weight: normal">
+                                                                Revisión
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_108" name="tag_ids" value="108" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_108" style="font-weight: normal">
+                                                                Transporte
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_111" name="tag_ids" value="111" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_111" style="font-weight: normal">
+                                                                Documentos Legales
                                                             </label>
                                                         </div>
                                                     </div>
