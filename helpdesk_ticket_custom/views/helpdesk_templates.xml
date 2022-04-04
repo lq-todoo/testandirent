@@ -264,6 +264,78 @@
                                                             </label>
                                                         </div>
                                                     </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_112" name="tag_ids" value="112" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_112" style="font-weight: normal">
+                                                                Seguridad Privada
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_113" name="tag_ids" value="113" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_113" style="font-weight: normal">
+                                                                Redes
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_114" name="tag_ids" value="114" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_114" style="font-weight: normal">
+                                                                Eléctricos
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_115" name="tag_ids" value="115" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_115" style="font-weight: normal">
+                                                                Locativo
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_116" name="tag_ids" value="116" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_116" style="font-weight: normal">
+                                                                Aires Acondicionados
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_117" name="tag_ids" value="117" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_117" style="font-weight: normal">
+                                                                Obra Civil
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_118" name="tag_ids" value="118" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_118" style="font-weight: normal">
+                                                                Diseño
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_119" name="tag_ids" value="119" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_119" style="font-weight: normal">
+                                                                Inventario
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_120" name="tag_ids" value="120" required=""/>
+                                                            <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_120" style="font-weight: normal">
+                                                                Orden Compra
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
