@@ -1,0 +1,19 @@
+<odoo>
+  <data>
+    <!-- Se hereda el campo de proyectos en el modelo de usuarios  -->
+    <record id="stock_picking_extended_view" model="ir.ui.view">
+      <field name="name">stock_picking_extended_view</field>
+      <field name="model">stock.picking</field>
+      <field name="inherit_id" ref="stock.view_picking_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='picking_type_id']" position="after">
+          <field name="code" invisible="1"/>
+          <field name="warehouse_id" invisible="1"/>
+        </xpath>
+        <xpath expr="//field[@name='backorder_id']" position="after">
+          <field name="requisition_id" readonly="1" attrs="{'invisible': [('code', '!=', 'internal')]}"/>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

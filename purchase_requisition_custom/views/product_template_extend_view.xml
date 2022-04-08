@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_template_extend_view" model="ir.ui.view">
+            <field name="name">product_template_extend_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.product_template_form_view_procurement_button"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[@name='Product Template']/sheet[@name='product_form']/notebook[1]/page[@name='inventory']/group[@name='inventory']" position="after">
+                    <field name="stock_quant" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
