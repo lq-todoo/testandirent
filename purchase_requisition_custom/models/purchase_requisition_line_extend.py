@@ -18,7 +18,7 @@ class purchase_requisition_line_extend(models.Model):
                                  help='Muestra la cantidad disponible en la ubicación selecionada del producto')
 
     location_id_domain = fields.Char(compute="_compute_location_stock_picking", readonly=True, store=False)
-    picking_type_id = fields.Many2one(comodel_name='stock.picking.type', string='Tipo de operación', readonly=True)
+    picking_type_id = fields.Many2one(comodel_name='stock.picking.type', string='Tipo de operación')
     property_stock_inventory = fields.Many2one(comodel_name='stock.location',
                                                string='Mover de',
                                                help='Muestra la ubicación del producto en el inventario',
