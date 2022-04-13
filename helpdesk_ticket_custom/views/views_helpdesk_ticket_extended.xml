@@ -19,8 +19,8 @@
               <field name="x_project" options="{'no_create':true, 'no_open':true}"/>
               <field name="current_location"/>
               <field name="location"/>
-              <field name="x_family" options="{'no_create':true, 'no_open':true}"/>
-              <field name="x_sub_group" options="{'no_create':true, 'no_open':true}"/>
+              <field name="x_family" options="{'no_create':true, 'no_open':true}" invisible="1"/>
+              <field name="x_sub_group" options="{'no_create':true, 'no_open':true}" invisible="1"/>
               <field name="close_date"/>
               <field name="close_hours"/>
           </xpath>

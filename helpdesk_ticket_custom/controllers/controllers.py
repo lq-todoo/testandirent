@@ -40,14 +40,19 @@ class WebsiteHelpdesk(main.WebsiteHelpdesk):
         partner_id = request.env.user.partner_id
         #new
         helpdesk_family = request.env['helpdesk_family'].sudo().search([])
+        ticket_type_id = request.env['helpdesk.ticket.type'].sudo().search([])
+        tag_ids = request.env['helpdesk.tag'].sudo().search([])
         #result['partner_name'] = partner_values.get('name')
         result['partner_id'] = partner_id
         result['helpdesk_family'] = helpdesk_family
+        result['ticket_type_id'] = ticket_type_id
+        result['tag_ids'] = tag_ids
         if partner_id.x_project:
             result['projects'] = partner_id.x_project
         else:
             result['projects'] = []
         return request.render("website_helpdesk.team", result)
+
 
     @http.route(['/familty/sub_grupo/<int:family_id>'], type='http', auth="public", methods=['GET'], website=True, csrf=False)
     def get_county_all(self, family_id=0):

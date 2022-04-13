@@ -10,9 +10,9 @@ class helpdesk_ticket_extended(models.Model):
     x_classification = fields.Many2one(comodel_name='helpdesk_classification', string='Clasificación')
     x_project = fields.Many2one(comodel_name='helpdesk_project', string='Proyecto', required="True",
                                 help='El proyecto está relacionado con su respectivo centro de costo')
-    x_family = fields.Many2one(comodel_name='helpdesk_family', string='Familia', required="True",
+    x_family = fields.Many2one(comodel_name='helpdesk_family', string='Familia',
                                help='Familia a la que pertenece el requerimiento del ticket')
-    x_sub_group = fields.Many2one(comodel_name='helpdesk_sub_group', string='Sub grupo', required="True",
+    x_sub_group = fields.Many2one(comodel_name='helpdesk_sub_group', string='Sub grupo',
                                   help='Subgrupo relacionado a cada familia')
     current_location = fields.Char(string='Ubicación del proyecto', related='x_project.current_location', store=True,
                                    help='Indica la ubicación del proyecto')

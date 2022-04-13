@@ -15,7 +15,7 @@ from odoo.addons.base.models.ir_qweb_fields import nl2br
 from odoo.addons.website.controllers import form
 
 
-NEWS_FIELDS_HELPDESK_TICKET = ['x_project', 'x_family', 'x_sub_group']
+NEWS_FIELDS_HELPDESK_TICKET = ['tag_ids', 'ticket_type_id', 'x_project', 'x_family', 'x_sub_group']
 
 class WebsiteForm(form.WebsiteForm):
 
