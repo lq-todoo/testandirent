@@ -1,0 +1,27 @@
+<odoo>
+  <data>
+    <!-- Se hereda el campo de proyectos en el modelo de usuarios  -->
+    <record id="res_partner_extended" model="ir.ui.view">
+        <field name="name">res_partner_extend</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="share_percentage" attrs="{'invisible': [('company_type', '=', 'company')]}"/>
+            </xpath>
+            <field name="share_percentage" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="share_percentage" position="after">
+                <label for="shareholding_structure" string="Composición Accionaria" attrs="{'invisible': [('company_type','=', 'company')]}"/>
+                <div>
+                    <field name="shareholding_structure" attrs="{'invisible': [('company_type','=', 'company')]}" class="oe_inline"  required="True"/>
+                    <span class="oe_read_only" attrs="{'invisible': [('company_type','=', 'company')]}"> - </span>
+                    <field name="share_percentage" placeholder="Number" class="oe_inline" attrs="{'invisible': [('company_type','=', 'company')]}"/>
+                    <span class="oe_read_only" attrs="{'invisible': [('company_type','=', 'company')]}">%</span>
+                </div>
+            </field>
+        </field>
+    </record>
+  </data>
+</odoo>
