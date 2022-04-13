@@ -90,6 +90,11 @@
               <field name="c" invisible="1"/>
               <field name="cc" invisible="1"/>
               <field name="len_id" invisible="1"/>
+              <field name="demo"/>
+              <field name="demo2"/>
+              <field name="demo3"/>
+              <field name="demo4"/>
+              <field name="demo5"/>
           </xpath>
           <xpath expr="//field[@name='date_end']" position="attributes">
               <attribute name="required">1</attribute>

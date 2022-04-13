@@ -8,10 +8,7 @@ class purchase_requisition_line_extend(models.Model):
 
     product_qty = fields.Float(string='Quantity', digits='Product Unit of Measure', compute='_compute_product_qty')
 
-    # qty_available = fields.Float(related='product_id.qty_available', string='A mano',
-    #                          help='Muestra la  cantidad a mano del producto en inventario')
-
-    available_quantity_total = fields.Float(string='Stock', compute='_compute_available_quantity_total',
+    available_quantity_total = fields.Float(string='Stock',
                                  help='Muestra la cantidad disponible que está sin reservar')
 
     qty_available_location = fields.Float(string='Disponible',
@@ -89,35 +86,35 @@ class purchase_requisition_line_extend(models.Model):
                     'company_id': self.env.company.id,
                     'warehouse_id': self.property_stock_inventory.warehouse_id.id,
                 }
-                picking_type_id = self.env['stock.picking.type'].create(create_stock_picking_type)
-                self.picking_type_id = picking_type_id.id
+                picking_type2 = self.env['stock.picking.type'].create(create_stock_picking_type)
+                self.picking_type_id = picking_type2.id
         else:
             self.picking_type_id = False
 
 
     # Función que calcula la cantidad de inventario a mover
     @api.onchange('product_qty2')
-    @api.depends('qty_available_location')
+    @api.depends('available_quantity_total')
     def _compute_inventory_product_qty(self):
         for rec in self:
-            if rec.product_qty2 <= rec.qty_available_location:
+            if rec.product_qty2 <= rec.available_quantity_total:
                 rec.inventory_product_qty = rec.product_qty2
             else:
-                rec.inventory_product_qty = rec.qty_available_location
+                rec.inventory_product_qty = rec.available_quantity_total
 
     # Función que calcula la cantidad a comprar
     @api.onchange('product_qty2')
-    @api.depends('qty_available_location')
+    @api.depends('available_quantity_total')
     def _compute_product_qty(self):
         for rec2 in self:
-            if rec2.product_qty2 > rec2.qty_available_location:
-                rec2.product_qty = rec2.product_qty2 - rec2.qty_available_location
+            if rec2.product_qty2 > rec2.available_quantity_total:
+                rec2.product_qty = rec2.product_qty2 - rec2.available_quantity_total
             else:
                 rec2.product_qty = 0
 
     # Función que calcula la cantidad disponible en el stock del producto en ubicación interna
-    @api.onchange('product_id')
-    @api.depends('product_id')
+    @api.onchange('product_id', 'show_picking')
+    # @api.depends('product_id')
     def _compute_available_quantity_total(self):
         c = 0
         if self.product_id.stock_quant:
