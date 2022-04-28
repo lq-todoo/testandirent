@@ -13,6 +13,12 @@
                         </group>
                     </page>
                 </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="location_id" options="{'no_create':true, 'no_open':true}"/>
+                </xpath>
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="available_requisition" invisible=""/>
+                </xpath>
             </field>
         </record>
     </data>

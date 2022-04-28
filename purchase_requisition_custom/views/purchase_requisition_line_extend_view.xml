@@ -8,18 +8,22 @@
             <field name="arch" type="xml">
                 <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='line_ids']/tree[1]/field[@name='product_description_variants']" position="after">
                     <field name="available_quantity_total" optional="hide"/>
-                    <field name="qty_available_location"/>
+                    <field name="qty_location" readonly=""/>
+                    <field name="location" readonly=""/>
                     <field name="location_id_domain" invisible="1"/>
                     <field name="property_stock_inventory" options="{'no_create':true, 'no_open':true}" domain="location_id_domain"/>
                     <field name="picking_type_id" options="{'no_create':true, 'no_open':true}" optional="hide"/>
+                    <field name="warehouse_id"/>
                     <field name="location_dest_id_domain" invisible="1"/>
                     <field name="default_location_dest_id" options="{'no_create':true, 'no_open':true}" domain="location_dest_id_domain"/>
-                    <field name="warehouse_id" optional="hide"/>
                     <field name="product_qty2"/>
                 </xpath>
                 <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='line_ids']/tree[1]/field[@name='product_qty']" position="before">
                     <field name="inventory_product_qty"/>
                     <field name="show_picking" invisible="1"/>
+                </xpath>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='line_ids']/tree[1]/field[@name='price_unit']" position="after">
+                    <field name="observations" optional="hide"/>
                 </xpath>
                 <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='line_ids']/tree[1]/field[@name='product_qty']" position="attributes">
                     <attribute name="string">Cantidad compra</attribute>
@@ -28,6 +32,9 @@
                     <attribute name="optional">hide</attribute>
                 </xpath>
                 <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="options">{"no_create":true, "no_open":true}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='product_uom_id']" position="attributes">
                     <attribute name="options">{"no_create":true, "no_open":true}</attribute>
                 </xpath>
             </field>

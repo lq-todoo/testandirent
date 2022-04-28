@@ -1,17 +1,40 @@
 <odoo>
   <data>
-    <!-- Se hereda el campo de proyectos en el modelo de usuarios  -->
-    <record id="stock_picking_extended_view" model="ir.ui.view">
-      <field name="name">stock_picking_extended_view</field>
+    <!-- form view  -->
+    <record id="stock_picking_extended_form_view" model="ir.ui.view">
+      <field name="name">stock_picking_extended_form_view</field>
       <field name="model">stock.picking</field>
       <field name="inherit_id" ref="stock.view_picking_form"/>
       <field name="arch" type="xml">
+        <xpath expr="//button[@name='action_confirm']" position="after">
+          <button name="compute_account_analytic_cost" string="Demo" type="object" class="oe_highlight" groups="base.group_user" data-hotkey="x" invisible="1"/>
+        </xpath>
         <xpath expr="//field[@name='picking_type_id']" position="after">
           <field name="code" invisible="1"/>
           <field name="warehouse_id" invisible="1"/>
         </xpath>
+        <xpath expr="//field[@name='date_deadline']" position="after">
+          <field name="account_analytic_id" groups="analytic.group_analytic_accounting"/>
+        </xpath>
         <xpath expr="//field[@name='backorder_id']" position="after">
-          <field name="requisition_id" readonly="1" attrs="{'invisible': [('code', '!=', 'internal')]}"/>
+          <field name="requisition_id" readonly="1" attrs="{'invisible': [('requisition_id', '=', False)]}"/>
+          <field name="purchase_id" readonly="1" attrs="{'invisible': [('purchase_id', '=', False)]}"/>
+          <field name="sale_id" readonly="1" attrs="{'invisible': [('sale_id', '=', False)]}"/>
+        </xpath>
+        <xpath expr="//field[@name='partner_id']" position="attributes">
+          <attribute name="options">{"no_create":true, "no_open":true}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='picking_type_id']" position="attributes">
+          <attribute name="options">{"no_create":true, "no_open":true}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='user_id']" position="attributes">
+          <attribute name="options">{"no_create":true, "no_open":true}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='group_id']" position="attributes">
+          <attribute name="options">{"no_create":true, "no_open":true}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='company_id']" position="attributes">
+          <attribute name="options">{"no_create":true, "no_open":true}</attribute>
         </xpath>
       </field>
     </record>

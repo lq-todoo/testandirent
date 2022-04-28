@@ -8,6 +8,12 @@ class stock_warehouse_extend(models.Model):
                      column1='stock_warehouse_id', column2='hr_employee_id', string='Empleado responsable',
                      help='Empleado que puede aprobar transferencias internas en el almacen')
 
+    location_id = fields.Many2one(comodel_name="location_warehouse", string='Locación', help="Indica la locación/ciudad donde se encuentra el almacen")
+
+    available_requisition = fields.Boolean(string='Puede usarse en requisiciones')
+
+    code = fields.Char('Short Name', required=True, size=8, help="Short name used to identify your warehouse")
+
     # validación limite para asociar almacen
     @api.onchange('employee_id')
     def _compute_ticket_limit(self):

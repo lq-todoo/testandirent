@@ -9,4 +9,8 @@ from . import stock_picking_extend
 from . import product_template_extend
 from . import helpdesk_ticket_extended
 from . import stock_warehouse_extend
-
+from . import stock_location_extend
+from . import location_warehouse
+from . import stock_picking_move_extend
+from . import stock_picking_type_extend
+from . import account_analytic_line_extend
