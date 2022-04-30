@@ -13,8 +13,7 @@ class purchase_requisition_line_extend(models.Model):
 
     qty_location = fields.Float(string='Disponible',
                                  help='Muestra la cantidad disponible en la ubicación selecionada del producto')
-    location = fields.Many2one(comodel_name='location_warehouse',
-                                               string='Locación',
+    location = fields.Many2one(comodel_name='location_warehouse', string='Locación',
                                                help='Muestra la ubicación de la ciudad/locación del producto',
                                                )
     location_id_domain = fields.Char(compute="_compute_location_stock_picking", readonly=True, store=False)
@@ -34,7 +33,7 @@ class purchase_requisition_line_extend(models.Model):
                                   help='Mostrar/ocultar el button y smart button de solicitud de compra')
     name_picking = fields.Char(comodel_name='stock.location', related='product_id.name')
     warehouse_id = fields.Many2one(comodel_name='stock.warehouse', string='A almacen',
-                                   domain="[('available_requisition', '=', 'True')]", help='Almacen a mover')
+                                   domain="[('usage', '=', 'supplier'), ('available_requisition', '=', 'True')]", help='Almacen a mover')
     observations = fields.Text(string='Observaciones')
 
     # Contabilidad analítica
@@ -60,12 +59,12 @@ class purchase_requisition_line_extend(models.Model):
             )
 
     #   Función que calcula la cantidad de stock por ubicación
-    @api.onchange('property_stock_inventory', 'show_picking')
+    @api.onchange('location')
     def compute_qty_available_location(self):
-        if self.property_stock_inventory:
+        if self.location:
             c = 0
             for rec in self.product_id.stock_quant:
-                if rec.product_id == self.product_id and rec.location_id == self.property_stock_inventory:
+                if rec.location == self.location and rec.location_id.usage == 'internal' and rec.product_id == self.product_id:
                     c = c + rec.available_quantity
                 self.qty_location = c
         else:

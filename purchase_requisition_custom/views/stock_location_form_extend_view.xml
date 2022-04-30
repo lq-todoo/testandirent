@@ -11,6 +11,8 @@
                     <field name="location_id2"/>
                     <field name="show" invisible="1"/>
                     <field name="available_requisition" attrs="{'invisible': [['show', '!=', True]]}"/>
+                    <field name="transit_location" invisible="1"/>
+                    <field name="transit_location_id" attrs="{'invisible': [['transit_location', '!=', True]]}"/>
                 </xpath>
                 <xpath expr="//group" position="inside">
                     <group string="Contabilidad" name="accounting">

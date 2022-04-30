@@ -14,3 +14,5 @@ from . import location_warehouse
 from . import stock_picking_move_extend
 from . import stock_picking_type_extend
 from . import account_analytic_line_extend
+from . import stock_picking_transit
+from . import stock_quant_custom

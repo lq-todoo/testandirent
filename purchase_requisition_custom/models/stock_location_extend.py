@@ -9,7 +9,8 @@ class purchase_requisition_line_extend(models.Model):
     show = fields.Boolean(related='warehouse_id.available_requisition')
     available_requisition = fields.Boolean(string='Puede usarse en requisiciones')
     account_analytic_id = fields.Many2one(comodel_name='account.analytic.account', string='Cuenta Analítica')
-
-
-
-
+    transit_location = fields.Boolean(string='Es ubicación de transito', related='warehouse_id.transit_location',
+                                      help='Solo se permite una ubicación de transito por almacen', readonly=True)
+    transit_location_id = fields.Many2one(comodel_name='stock.location', string='Ubicación de transito',
+                                          related='warehouse_id.transit_location_id',
+                                          help='Solo se permite una ubicación de transito por almacen')

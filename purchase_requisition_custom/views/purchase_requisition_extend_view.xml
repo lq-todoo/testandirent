@@ -124,17 +124,18 @@
                           context="{'default_requisition_id':active_id, 'default_user_id': False}"/>
               </xpath>
               <xpath expr="//div[@name='button_box']" position="inside">
-                        <button name="%(action_stock_picking_list)d" type="action" class="oe_stat_button" icon="fa-cubes"
-                            attrs="{'invisible': [('state', '=', 'draft')]}">
-                            <field name="stock_picking_count" widget="statinfo" string="Stock Picking"/>
-                        </button>
-                        <button name="%(action_tickets_list)d" type="action" class="oe_stat_button" icon="fa-life-ring">
-                            <field name="tickets_count" widget="statinfo" string="Tickets"/>
-                        </button>
+                  <button name="%(action_stock_picking_list)d" type="action" class="oe_stat_button" icon="fa-cubes"
+                          attrs="{'invisible': [('state', '=', 'draft')]}">
+                      <field name="stock_picking_count" widget="statinfo" string="Stock Picking"/>
+                  </button>
+                  <button name="%(action_tickets_list)d" type="action" class="oe_stat_button" icon="fa-life-ring">
+                      <field name="tickets_count" widget="statinfo" string="Tickets"/>
+                  </button>
               </xpath>
               <xpath expr="//button[@name='action_in_progress']" position="replace">
                   <button name="action_in_progress_extend" states="draft" string="Confirmar" type="object" class="btn-primary"
                   confirm="¿Desea confirmar este acuerdo de compra?"/>
+<!--                  <button name="stock_picking_transit_unlink" string="Unlink" type="object" class="btn-primary"/>-->
               </xpath>
               <xpath expr="//button[@name='action_open']" position="replace">
                   <button name="action_approve" states="in_progress" string="Aprobar" type="object" class="btn-primary"
