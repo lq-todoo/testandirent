@@ -6,9 +6,9 @@ class stock_warehouse_extend(models.Model):
     _inherit = 'stock.warehouse'
 
     usage = fields.Selection([
-        ('supplier', 'Vendor Location'),
-        ('internal', 'Internal Location'),
-        ('customer', 'Customer Location')], string='Tipo de ubicación',
+        ('supplier', 'Almacen Cliente'),
+        ('internal', 'Almacen Interno'),
+        ('customer', 'Almacen Proveedor')], string='Tipo de almacén',
         default='internal', index=True, required=True,
         help="* Vendor Location: Virtual location representing the source location for products coming from your vendors"
              "\n* Internal Location: Physical locations inside your own warehouses,"
@@ -26,14 +26,6 @@ class stock_warehouse_extend(models.Model):
                                           help='Solo se permite una ubicación de transito por almacen')
     transit_location = fields.Boolean(string='Ubicación de transito', compute='_compute_transit_location',
                                       help='Solo se permite una ubicación de transito por almacen', readonly=True)
-
-    # Permite concatenar el nombre y el tipo de almacen
-    def name_get(self):
-        result = []
-        for rec in self:
-            name = rec.name + ' - ' + rec.usage
-            result.append((rec.id, name))
-        return result
 
     # Función reestablecer campo available_requisition
     @api.onchange('usage')

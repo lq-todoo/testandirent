@@ -4,6 +4,7 @@ from odoo import fields, models, api
 class stock_picking_extend(models.Model):
     _inherit = 'stock.move'
 
+    stage = fields.Integer(string='Etapa')
     account_analytic_id = fields.Many2one(comodel_name='account.analytic.account', string='Cuenta Analítica',
                                           related='location_dest_id.account_analytic_id')
     standard_price = fields.Float(

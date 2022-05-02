@@ -13,7 +13,7 @@ class purchase_requisition_line_extend(models.Model):
 
     qty_location = fields.Float(string='Disponible',
                                  help='Muestra la cantidad disponible en la ubicación selecionada del producto')
-    location = fields.Many2one(comodel_name='location_warehouse', string='Locación',
+    location = fields.Many2one(comodel_name='location_warehouse', string='Locación', store=True,
                                                help='Muestra la ubicación de la ciudad/locación del producto',
                                                )
     location_id_domain = fields.Char(compute="_compute_location_stock_picking", readonly=True, store=False)
@@ -28,7 +28,7 @@ class purchase_requisition_line_extend(models.Model):
                                                help='Ubicación a mover, con filtro de almacane y ubicación interna, cliente')
     inventory_product_qty = fields.Float(string='Cantidad inventario', compute='_compute_inventory_product_qty',
                                          help='Cantidad de pruductos que deseas sacar o mover de inventario')
-    product_qty2 = fields.Float(string='Cantidad', help='Cantidad de pruductos a comprar')
+    product_qty2 = fields.Float(string='Cantidad', help='Cantidad de pruductos solicitado')
     show_picking = fields.Boolean(string='show', related='requisition_id.show_picking',
                                   help='Mostrar/ocultar el button y smart button de solicitud de compra')
     name_picking = fields.Char(comodel_name='stock.location', related='product_id.name')
@@ -59,23 +59,17 @@ class purchase_requisition_line_extend(models.Model):
             )
 
     #   Función que calcula la cantidad de stock por ubicación
-    @api.onchange('location')
+    @api.onchange('location', 'product_id', 'warehouse_id', 'default_location_dest_id', 'product_qty2', 'state', 'show_picking')
     def compute_qty_available_location(self):
+        c = 0
         if self.location:
-            c = 0
             for rec in self.product_id.stock_quant:
                 if rec.location == self.location and rec.location_id.usage == 'internal' and rec.product_id == self.product_id:
                     c = c + rec.available_quantity
                 self.qty_location = c
         else:
             self.qty_location = 0
-
-    # @api.onchange('show_picking', 'property_stock_inventory')
-    # def compute_qty_available_location2(self):
-    #     a = []
-    #     requisition_line = self.env['purchase.requisition.line'].sudo().search([('requisition_id', '=', self.requisition_id.ids),
-    #                                                                             ('product_id', '=', self.product_id.ids),
-    #                                                                             ('id', '!=', self.ids)], order='id ASC')
+        return
 
     # Función que calcula la cantidad de inventario a mover
     @api.onchange('product_qty2')
@@ -96,6 +90,12 @@ class purchase_requisition_line_extend(models.Model):
                 rec2.product_qty = rec2.product_qty2 - rec2.qty_location
             else:
                 rec2.product_qty = 0
+
+    # Función que calcula la cantidad a comprar
+    @api.onchange('product_id')
+    def _related_product_description_variants(self):
+        self.write({'product_description_variants': self.product_id.description_picking})
+
 
 
 

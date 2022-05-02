@@ -8,14 +8,14 @@
             <field name="arch" type="xml">
                 <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='line_ids']/tree[1]/field[@name='product_description_variants']" position="after">
                     <field name="available_quantity_total" optional="hide"/>
-                    <field name="qty_location" readonly="1"/>
+                    <field name="qty_location" readonly=""/>
                     <field name="location" readonly=""/>
                     <field name="location_id_domain" invisible="1"/>
                     <field name="property_stock_inventory" options="{'no_create':true, 'no_open':true}"
                            domain="location_id_domain" invisible="1"/>
                     <field name="picking_type_id" options="{'no_create':true, 'no_open':true}"
                            optional="hide" invisible="1"/>
-                    <field name="warehouse_id" invisible="1"/>
+                    <field name="warehouse_id" invisible=""/>
                     <field name="location_dest_id_domain" invisible="1"/>
                     <field name="default_location_dest_id" options="{'no_create':true, 'no_open':true}" domain="location_dest_id_domain"/>
                     <field name="product_qty2"/>

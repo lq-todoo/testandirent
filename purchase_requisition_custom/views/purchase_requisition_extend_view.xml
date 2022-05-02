@@ -135,7 +135,8 @@
               <xpath expr="//button[@name='action_in_progress']" position="replace">
                   <button name="action_in_progress_extend" states="draft" string="Confirmar" type="object" class="btn-primary"
                   confirm="¿Desea confirmar este acuerdo de compra?"/>
-<!--                  <button name="stock_picking_transit_unlink" string="Unlink" type="object" class="btn-primary"/>-->
+                  <!-- <button name="stock_picking_transit_unlink" string="Unlink" type="object" class="btn-primary"/> -->
+                  <!-- <button name="call_action_confirm" string="demo" type="object" class="btn-primary"/> -->
               </xpath>
               <xpath expr="//button[@name='action_open']" position="replace">
                   <button name="action_approve" states="in_progress" string="Aprobar" type="object" class="btn-primary"
@@ -148,8 +149,9 @@
                   confirm="¿Desea anular este acuerdo de compra?"/>
               </xpath>
               <xpath expr="//button[@name='action_cancel']" position="after">
-                  <button name="action_show_picking" states="draft,,in_progress,ongoing,open" string="Refrescar" type="object"
-                  confirm="¿Desea realizar comprobación de stock por ubicación?"/>
+                  <button name="action_show_picking" states="draft,in_progress,ongoing,open" string="Refrescar" type="object"
+                          context="{'default_requisition_id':active_id, 'default_user_id': False}"
+                          confirm="¿Desea realizar comprobación de stock por ubicación?"/>
               </xpath>
               <xpath expr="//field[@name='user_id']" position="after">
                   <field name="department_id" invisible=""/>
@@ -157,7 +159,7 @@
                   <field name="activity_id" invisible="1"/>
                   <field name="time_off_related" invisible="1"/>
                   <field name="time_off"/>
-                  <field name="manager2_id" attrs="{'invisible': ['|', ('manager_id', '=', False), ('time_off', '=', '1')]}"/>
+                  <field name="manager2_id" attrs="{'invisible': [('time_off', '=', 'Disponible')]}"/>
               </xpath>
               <xpath expr="//field[@name='date_end']" position="after">
                   <field name="current_date" invisible="1"/>
@@ -168,6 +170,11 @@
               </xpath>
               <xpath expr="//field[@name='date_end']" position="attributes">
                   <attribute name="required">1</attribute>
+                  <attribute name="attrs">{"readonly": [["state","in",["open","done","cancel"]]]}</attribute>
+              </xpath>
+              <xpath expr="//field[@name='ordering_date']" position="attributes">
+                  <attribute name="required">1</attribute>
+                  <attribute name="attrs">{"readonly": [["state","in",["open","done","cancel"]]]}</attribute>
               </xpath>
               <xpath expr="//field[@name='company_id']" position="after">
                   <field name="ticket_many2many" widget="many2many_tags" options="{'no_create':true}"/>
@@ -177,9 +184,10 @@
               </xpath>
               <xpath expr="//field[@name='user_id']" position="attributes">
                   <attribute name="options">{"no_create":true, "no_open":true}</attribute>
+                  <attribute name="attrs">{"readonly": [["state","in",["open","done","cancel"]]]}</attribute>
               </xpath>
               <xpath expr="//field[@name='line_ids']" position="attributes">
-                <attribute name="attrs">{"readonly": [["state","in",["done","cancel"]]]}</attribute>
+                <attribute name="attrs">{"readonly": [["state","in",["open","done","cancel"]]]}</attribute>
               </xpath>
               <!--        Concatenar campos -->
               <field name="time_off" position="attributes">

@@ -1,5 +1,5 @@
 from odoo import fields, models, api
-
+from odoo.exceptions import UserError
 
 class stock_picking_extend(models.Model):
     _inherit = 'stock.picking'
@@ -8,13 +8,16 @@ class stock_picking_extend(models.Model):
     code = fields.Selection([('incoming', 'Receipt'), ('outgoing', 'Delivery'), ('internal', 'Internal Transfer')],
                             'Operación', related='picking_type_id.code')
     warehouse_id = fields.Many2one(comodel_name='stock.warehouse', string='A almacén', related='location_dest_id.warehouse_id')
-    activity_id = fields.Integer(string='id actividad', store=True)     # id de la actividad asignada
+    activity_id = fields.Integer(string='id actividad')     # id de la actividad asignada
     ticket_many2many = fields.Many2many(comodel_name='helpdesk.ticket',
                                         relation='x_helpdesk_ticket_purchase_requisition_rel',
                                         column1='purchase_requisition_id', column2='helpdesk_ticket_id',
                                         string='Tickets', related='requisition_id.ticket_many2many')
     account_analytic_id = fields.Many2one(comodel_name='account.analytic.account', string='Cuenta Analítica',
                                           related='location_dest_id.account_analytic_id', store=True)
+    stage = fields.Integer(string='Etapa')
+    validation = fields.Integer(string='Validacación', help='Permite validar el stock picking de transito a destino')
+    parent_stock_picking = fields.Many2one(comodel_name='stock.picking', string='Stock picking padre')
 
     # Se crea apunte analítico
     def compute_account_analytic_cost(self):
@@ -49,18 +52,39 @@ class stock_picking_extend(models.Model):
 
     # Actualización de la función del boton como por hacer
     def action_confirm(self):
-        self._check_company()
-        self.mapped('package_level_ids').filtered(lambda pl: pl.state == 'draft' and not pl.move_ids)._generate_moves()
-        # call `_action_confirm` on every draft move
-        self.mapped('move_lines')\
-            .filtered(lambda move: move.state == 'draft')\
-            ._action_confirm()
+        if self.parent_stock_picking:
+            if self.parent_stock_picking.stage == 1 and self.parent_stock_picking.state == 'done':
+                self._check_company()
+                self.mapped('package_level_ids').filtered(
+                    lambda pl: pl.state == 'draft' and not pl.move_ids)._generate_moves()
+                # call `_action_confirm` on every draft move
+                self.mapped('move_lines') \
+                    .filtered(lambda move: move.state == 'draft') \
+                    ._action_confirm()
 
-        # run scheduler for moves forecasted to not have enough in stock
-        self.mapped('move_lines').filtered(lambda move: move.state not in ('draft', 'cancel', 'done'))._trigger_scheduler()
+                # run scheduler for moves forecasted to not have enough in stock
+                self.mapped('move_lines').filtered(
+                    lambda move: move.state not in ('draft', 'cancel', 'done'))._trigger_scheduler()
 
-        #  Marca actividad como hecha de forma automatica
-        new_activity = self.env['mail.activity'].search([('id', '=', self.activity_id)], limit=1)
-        new_activity.action_feedback(feedback='Es confirmada')
-        return True
+                #  Marca actividad como hecha de forma automatica
+                new_activity = self.env['mail.activity'].search([('id', '=', self.activity_id)], limit=1)
+                new_activity.action_feedback(feedback='Es confirmada')
+                return True
+            else:
+                raise UserError('Debe terminar primero la transferencia de ubicación origen a transito.')
+        else:
+            self._check_company()
+            self.mapped('package_level_ids').filtered(lambda pl: pl.state == 'draft' and not pl.move_ids)._generate_moves()
+            # call `_action_confirm` on every draft move
+            self.mapped('move_lines')\
+                .filtered(lambda move: move.state == 'draft')\
+                ._action_confirm()
+
+            # run scheduler for moves forecasted to not have enough in stock
+            self.mapped('move_lines').filtered(lambda move: move.state not in ('draft', 'cancel', 'done'))._trigger_scheduler()
+
+            #  Marca actividad como hecha de forma automatica
+            new_activity = self.env['mail.activity'].search([('id', '=', self.activity_id)], limit=1)
+            new_activity.action_feedback(feedback='Es confirmada')
+            return True
 
