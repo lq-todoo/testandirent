@@ -41,6 +41,8 @@ class PurchaseOrder(models.Model):
     def button_confirm_extend(self):
         # código nuevo con condición
         if self.related_requisition == True:
+            for requi in self.requisition_id:
+                requi.requisition_id.update_state_requisition()      # Actualización del estado de requisición a open
             if self.aprove_manager and self.time_off_related == False:
                 for order in self:
                     if order.state not in ['draft', 'sent']:

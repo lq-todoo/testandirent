@@ -11,9 +11,9 @@ class purchase_requisition_line_extend(models.Model):
     available_quantity_total = fields.Float(string='Stock', related='product_id.free_qty',
                                  help='Muestra la cantidad disponible que está sin reservar')
 
-    qty_location = fields.Float(string='Disponible',
+    qty_location = fields.Float(string='Disponible', store=True,
                                  help='Muestra la cantidad disponible en la ubicación selecionada del producto')
-    location = fields.Many2one(comodel_name='location_warehouse', string='Locación', store=True,
+    location = fields.Many2one(comodel_name='location_warehouse', string='Locación',
                                                help='Muestra la ubicación de la ciudad/locación del producto',
                                                )
     location_id_domain = fields.Char(compute="_compute_location_stock_picking", readonly=True, store=False)

@@ -3,12 +3,26 @@
 from odoo import api, fields, models, exceptions, _
 from odoo.exceptions import UserError
 
+PURCHASE_REQUISITION_STATES = [
+    ('draft', 'Draft'),
+    ('ongoing', 'Ongoing'),
+    ('in_progress', 'Confirmed'),
+    ('approved', 'Aprobado'),
+    ('assigned', 'Asignado'),
+    ('open', 'Bid Selection'),
+    ('done', 'Closed'),
+    ('cancel', 'Cancelled')
+]
+
 class purchase_requisition_extend(models.Model):
     _inherit = 'purchase.requisition'
 
+    state = fields.Selection(PURCHASE_REQUISITION_STATES,
+                             'Status', tracking=True, required=True,
+                             copy=False, default='draft')
+    state_blanket_order = fields.Selection(PURCHASE_REQUISITION_STATES, compute='_set_state')
     department_id = fields.Many2one(comodel_name='hr.department', related='user_id.department_id',
                                    string='Departamento', store=True)
-
     manager_id = fields.Many2one(comodel_name='hr.employee', related='user_id.department_id.manager_id', string='Jefe del área',
                              help='Jefe inmediato respondable de su aprobación')
     manager2_id = fields.Many2one(comodel_name='hr.employee', related='manager_id.parent_id', string='Aprobación alternativa',
@@ -35,11 +49,15 @@ class purchase_requisition_extend(models.Model):
     len_id = fields.Integer(string='longitud', store=False)
     x_stock_picking_transit = fields.One2many(comodel_name='stock_picking_transit', inverse_name='requisition_id',
                                   string='Stock picking transitorio')
-
-    # Función boton refrescar
+    assignees_id = fields.Many2one(comodel_name='res.users', string='Asignado', store=True, readonly=False,
+                                   tracking=True,
+                                   domain=lambda self: [
+                                       ('groups_id', 'in', self.env.ref('purchase.group_purchase_user').id)])
+    # Función boton refrescar disponibilidad
     def action_show_picking(self):
         for rec in self.line_ids:
             rec.compute_qty_available_location()
+        self.update_purchase_requisition_line()  # Función que actualiza las cantidades disponibles en productos repetidos
 
     # Acción de button tranferencia inmediata
     def action_stock_picking_create(self):
@@ -48,6 +66,7 @@ class purchase_requisition_extend(models.Model):
         a = len(comprob.ids)
         if a == 0:
             self.write({'x_stock_picking_transit': [(5)]})  # Limpiar/deslinkear registros del modelo
+            self.action_show_picking()      # Función boton refrescar disponibilidad
             self.update_purchase_requisition_line()  # Función que actualiza las cantidades disponibles en productos repetidos
             self._stock_picking_create()    # Función que genera las tranferencias dependiedo las ubicaciones a mover
             self.association_stock_picking()    # Función asociar stock pickink padre
@@ -112,7 +131,7 @@ class purchase_requisition_extend(models.Model):
     def stock_picking_transit_unlink(self):
         self.write({'x_stock_picking_transit': [(5)]})
 
-    # Función que genera las tranferencias dependiedo las ubicaciones a mover
+    # Función que genera las tranferencias en dos pasos ubicación origen --> transito y transito --> destino
     def _stock_picking_create(self):
         if self.line_ids:
             # variables
@@ -137,6 +156,7 @@ class purchase_requisition_extend(models.Model):
 
             # generación stock pickin de ubicación de origen a ubicación transición
             if long > 0: # comprueba si etiste una cantidad asignada para cantidad en inventario
+                self.write({'state': 'open'})   # Cambio de estado
                 for l2 in transit_stock:
                     transit_stock_picking = self.env['stock.location'].search([('id', '=', l2)], limit=1)
                     create_vals = {'stage': 1,
@@ -421,6 +441,7 @@ class purchase_requisition_extend(models.Model):
     # función del boton validar
     def action_in_progress_extend(self):
         if self.manager_id or self.user_id.employee_id.general_manager == True:
+            self.action_show_picking()  # Función boton refrescar disponibilidad
             self.update_purchase_requisition_line()  # Función que actualiza las cantidades disponibles en productos repetidos
             self._verification_requisition_line()       # Función de verificación de lineas de requisición
             self.ensure_one()
@@ -485,11 +506,12 @@ class purchase_requisition_extend(models.Model):
 
     # Función del boton aprobación, y tambien puede aprobar el jefe inmediato si no se encuentra el responsable de aprobación
     def action_approve(self):
+        self.action_show_picking()  # Función boton refrescar disponibilidad
         self._verification_requisition_line()       # Función de verificación de lineas de requisición
         self.update_purchase_requisition_line()  # Función que actualiza las cantidades disponibles en productos repetidos
         if (self.manager_id.user_id == self.env.user and self.manager_id.active_budget == True) or (self.manager2_id.user_id == self.env.user and self.time_off_related == True):
             # Cambio de etapa
-            self.write({'state': 'open'})
+            self.write({'state': 'approved'})
             #  Marca actividad como hecha de forma automatica
             new_activity = self.env['mail.activity'].search([('id', '=', self.activity_id)], limit=1)
             new_activity.action_feedback(feedback='Es aprobado')
@@ -511,11 +533,40 @@ class purchase_requisition_extend(models.Model):
             else:
                 raise UserError('Existen lienas que no tienen almacen/ubicación de destino')
 
+    # función que cambia de estado asignado a estado de selección
+    @api.onchange('assignees_id')
+    def action_state_assigned_to_open(self):
+        if self.assignees_id:
+            self.write({'state': 'open'})
+        else:
+            return
+
     # función que llama función confirmar en stock picking
     def call_action_confirm(self):
         for rec in self.purchase_ids2:
             if rec.stage == 1:
                 rec.action_confirm()
+
+    # Extención de función cerrar
+    def action_done(self):
+        """
+        Generate all purchase order based on selected lines, should only be called on one agreement at a time
+        """
+        if any(stock_picking.state in ['draft', 'waiting', 'confirmed', 'assigned'] for stock_picking in
+               self.mapped('purchase_ids2')):
+            raise UserError('Debes terminar o cancelar antes el stock picking.')
+
+        if any(purchase_order.state in ['draft', 'sent', 'to approve'] for purchase_order in self.mapped('purchase_ids')):
+            raise UserError(_('You have to cancel or validate every RfQ before closing the purchase requisition.'))
+        for requisition in self:
+            for requisition_line in requisition.line_ids:
+                requisition_line.supplier_info_ids.unlink()
+        self.write({'state': 'done'})
+
+    # función cambio de stock
+    def update_state_requisition(self):
+        self.write({'state': 'open'})  # Cambio de estado
+
 
 
 
