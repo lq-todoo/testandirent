@@ -181,7 +181,7 @@
               </xpath>
               <!--        campos             -->
               <xpath expr="//field[@name='user_id']" position="before">
-                  <field name="assignees_id" groups="purchase.group_purchase_user" states="approved,assigned,open"/>
+                  <field name="assignees_id" groups="purchase.group_purchase_user" states="approved,assigned,open,done"/>
               </xpath>
               <xpath expr="//field[@name='user_id']" position="after">
                   <field name="department_id" invisible=""/>

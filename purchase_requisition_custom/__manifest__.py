@@ -35,7 +35,7 @@
                 'purchase_stock',
                 'stock',
                 'sale_stock',
-                'helpdesk',
+                'helpdesk_ticket_custom',
                 'web_domain_field',
                 ],
 
@@ -57,6 +57,8 @@
         'views/stock_picking_type_extend_view.xml',
         'views/account_analytic_line_extend_view.xml',
         'views/stock_quant_custom_view.xml',
+        # 'views/report_purchaseorder_document_extend.xml'
+        # 'report/report_deliveryslip_extend.xml'
     ],
 
     'installable': True,

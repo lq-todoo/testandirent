@@ -25,7 +25,8 @@
                     <field name="show_picking" invisible="1"/>
                 </xpath>
                 <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='line_ids']/tree[1]/field[@name='price_unit']" position="after">
-                    <field name="observations" optional="hide"/>
+                    <field name="x_project" options="{'no_create':true, 'no_open':true}" required="1"/>
+                    <field name="observations" optional="show"/>
                 </xpath>
                 <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='line_ids']/tree[1]/field[@name='product_qty']" position="attributes">
                     <attribute name="string">Cantidad compra</attribute>
