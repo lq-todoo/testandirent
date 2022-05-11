@@ -16,11 +16,11 @@
           <field name="manager_before" invisible="1"/>
           <field name="activity_id" invisible="1"/>
         </xpath>
-        <xpath expr="//field[@name='requisition_id']" position="attributes">
-              <attribute name="readonly">1</attribute>
-        </xpath>
         <xpath expr="//field[@name='date_order']" position="after">
           <field name="current_date" invisible="1"/>
+        </xpath>
+        <xpath expr="//field[@name='requisition_id']" position="attributes">
+              <attribute name="readonly">1</attribute>
         </xpath>
         <xpath expr="//field[@name='partner_id']" position="attributes">
               <attribute name="options">{"no_create":true, "no_open":true}</attribute>
@@ -47,6 +47,18 @@
       </field>
     </record>
 
+    <record id="purchase_extend_form_view_inherit_purchase_stock" model="ir.ui.view">
+      <field name="name">purchase_extend_view</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref='purchase_stock.purchase_order_view_form_inherit'/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='picking_type_id']" position="after">
+          <field name="warehouse_manager" widget="many2many_tags" options="{'no_create':true}"/>
+          <field name="mobile_phone" invisible="1"/>
+        </xpath>
+      </field>
+    </record>
+
     <record id="purchase_extend_view" model="ir.ui.view">
       <field name="name">purchase_extend_view</field>
       <field name="model">purchase.order</field>
@@ -69,8 +81,11 @@
                   class="oe_highlight" data-hotkey="z" attrs="{'invisible': ['|', ['state_aprove', '!=', 3], ['state', '!=', 'to approve']]}"/>
           <button name="button_approve_extend" type="object" string="Aprobar Orden ⁽4⁾" confirm="¿Desea aprobar esta solicitud de compra?"
                   class="oe_highlight" data-hotkey="z" attrs="{'invisible': ['|', ['state_aprove', '!=', 4], ['state', '!=', 'to approve']]}"/>
-          <button name="button_approve_extend" type="object" string="Aprobar Orden ⁽estra⁾" confirm="¿Desea aprobar esta solicitud de compra?"
+          <button name="button_approve_extend" type="object" string="Aprobar Orden ⁽5⁾" confirm="¿Desea aprobar esta solicitud de compra?"
                   class="oe_highlight" data-hotkey="z" attrs="{'invisible': ['|', ['state_aprove', '!=', 5], ['state', '!=', 'to approve']]}"/>
+          <button name="button_approve_extend" type="object" string="Aprobar Orden ⁽estra⁾" confirm="¿Desea aprobar esta solicitud de compra?"
+                  class="oe_highlight" data-hotkey="z" attrs="{'invisible': ['|', ['state_aprove', '!=', 6], ['state', '!=', 'to approve']]}"/>
+          <button name="update_state_requisition" type="object" string="demo"/>
         </xpath>
         <xpath expr="//button[@name='button_draft']" position="replace" >
           <button name="button_draft_extend" states="cancel" string="Cambiar a borrador" type="object" data-hotkey="o"/>
@@ -78,6 +93,7 @@
         <xpath expr="//button[@name='button_cancel']" position="before" >
           <button name="button_cancel_extend" states="to approve,sent" string="Rechazar" type="object" data-hotkey="x"
           confirm="¿Desea anular esta solicitud de compra?"/>
+          <button name="compute_account_analytic_cost" string="refrecar cuentas" type="object" invisible="1"/>
         </xpath>
         <xpath expr="//button[@name='button_cancel']" position="replace" >
           <button name="button_cancel" states="draft,sent,purchase" string="Cancelar" type="object" data-hotkey="x"

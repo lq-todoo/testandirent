@@ -18,6 +18,9 @@ class stock_picking_extend(models.Model):
     stage = fields.Integer(string='Etapa')
     validation = fields.Integer(string='Validacación', help='Permite validar el stock picking de transito a destino')
     parent_stock_picking = fields.Many2one(comodel_name='stock.picking', string='Stock picking padre')
+    signature_receives = fields.Binary(string='Recibe')
+    signature_delivery = fields.Binary(string='Entrega')
+    signature_warehouse_manager = fields.Binary(string='Responsable de almacen')
 
     # Se crea apunte analítico
     def compute_account_analytic_cost(self):

@@ -116,6 +116,7 @@
     <record model="ir.actions.act_window" id="action_purchase_requisition_to_so">
         <field name="name">Request for Quotation</field>
         <field name="type">ir.actions.act_window</field>
+        <field name="type">ir.actions.act_window</field>
         <field name="res_model">purchase.order</field>
         <field name="view_mode">form,tree</field>
         <field name="domain">[('requisition_id','=',active_id)]</field>
@@ -197,13 +198,13 @@
                   <field name="c" invisible="1"/>
                   <field name="cc" invisible="1"/>
                   <field name="len_id" invisible="1"/>
+                  <field name="purchase_order_process" invisible="1"/>
               </xpath>
               <xpath expr="//field[@name='date_end']" position="attributes">
                   <attribute name="required">1</attribute>
                   <attribute name="attrs">{"readonly": [["state","in",["open","done","cancel"]]]}</attribute>
               </xpath>
               <xpath expr="//field[@name='ordering_date']" position="attributes">
-                  <attribute name="required">1</attribute>
                   <attribute name="attrs">{"readonly": [["state","in",["open","done","cancel"]]]}</attribute>
               </xpath>
               <xpath expr="//field[@name='company_id']" position="after">
@@ -257,6 +258,9 @@
           <field name="arch" type="xml">
               <xpath expr="//field[@name='origin']" position="after">
                   <field name="assignees_id"/>
+              </xpath>
+              <xpath expr="//field[@name='state']" position="after">
+                  <field name="purchase_order_process" groups="purchase.group_purchase_user"/>
               </xpath>
           </field>
       </record>

@@ -7,10 +7,8 @@ class purchase_requisition_line_extend(models.Model):
     _inherit = 'purchase.requisition.line'
 
     product_qty = fields.Float(string='Quantity', digits='Product Unit of Measure', compute='_compute_product_qty')
-
     available_quantity_total = fields.Float(string='Stock', related='product_id.free_qty',
                                  help='Muestra la cantidad disponible que está sin reservar')
-
     qty_location = fields.Float(string='Disponible', store=True,
                                  help='Muestra la cantidad disponible en la ubicación selecionada del producto')
     location = fields.Many2one(comodel_name='location_warehouse', string='Locación',
@@ -93,10 +91,12 @@ class purchase_requisition_line_extend(models.Model):
             else:
                 rec2.product_qty = 0
 
-    # Función que calcula la cantidad a comprar
+    # Función que escribe la descripción del producto de compra en la requisición
     @api.onchange('product_id')
     def _related_product_description_variants(self):
-        self.write({'product_description_variants': self.product_id.description_picking})
+        self.write({'product_description_variants': self.product_id.description_purchase})
+
+
 
 
 

@@ -22,6 +22,23 @@
           <field name="purchase_id" readonly="1" attrs="{'invisible': [('purchase_id', '=', False)]}"/>
           <field name="sale_id" readonly="1" attrs="{'invisible': [('sale_id', '=', False)]}"/>
         </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+          <page string="Firmas" name="signature_page" attrs="{'invisible': [('state', '!=', 'done')]}">
+            <group name="group_top">
+              <group name="group_left">
+                <field name="signature_delivery" widget="signature"/>
+              </group>
+              <group name="group_right">
+                <field name="signature_receives" widget="signature"/>
+              </group>
+            </group>
+            <group name="group_top2">
+              <group name="group_left2">
+                <field name="signature_warehouse_manager" widget="signature"/>
+              </group>
+            </group>
+          </page>
+        </xpath>
         <xpath expr="//field[@name='partner_id']" position="attributes">
           <attribute name="options">{"no_create":true, "no_open":true}</attribute>
         </xpath>

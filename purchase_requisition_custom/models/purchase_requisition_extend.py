@@ -53,6 +53,17 @@ class purchase_requisition_extend(models.Model):
                                    tracking=True,
                                    domain=lambda self: [
                                        ('groups_id', 'in', self.env.ref('purchase.group_purchase_user').id)])
+    picking_type_id = fields.Many2one('stock.picking.type', 'Operation Type', required=True,
+                                      domain="[('warehouse_id.company_id', '=', company_id), ('code', '=', 'incoming'), ('available_requisition', '=', True)]")
+    purchase_order_process = fields.Boolean(string='En proceso', domain=lambda self: [
+                                            ('groups_id', 'in', self.env.ref('purchase.group_purchase_user').id)],
+                                            help='Indica si tiene una orden compra asociada')
+
+    # escribir de pedido con la de creación
+    @api.onchange('line_ids')
+    def _compute_ordering_date(self):
+        self.ordering_date = fields.datetime.now()
+
     # Función boton refrescar disponibilidad
     def action_show_picking(self):
         for rec in self.line_ids:
@@ -255,7 +266,6 @@ class purchase_requisition_extend(models.Model):
                             'product_uom': 1,
                             'product_uom_qty': l3.quantity,
                             'quantity_done': 0,
-                            'description_picking': l3.name_picking,
                             'location_id': l3.origin_location_id.id,
                             'location_dest_id': l3.transit_location_id.id,
                             'date_deadline': self.date_end,
@@ -355,7 +365,6 @@ class purchase_requisition_extend(models.Model):
                                         'product_uom': 1,
                                         'product_uom_qty': rec6.quantity,
                                         'quantity_done': 0,
-                                        'description_picking': rec6.name_picking,
                                         'location_id': rec6.origin_location_id.id,
                                         'location_dest_id': rec6.dest_location_id.id,
                                         'date_deadline': self.date_end,
@@ -420,6 +429,10 @@ class purchase_requisition_extend(models.Model):
         #  Marca actividad como hecha de forma automatica
         new_activity = self.env['mail.activity'].search([('id', '=', self.activity_id)], limit=1)
         new_activity.action_feedback(feedback='Es rechazado')
+        # Update state cancel stock_picking
+        #for rec in self.purchase_ids2:
+        #    if rec.requisition_id == self.id:
+        #        self.write({'purchase_id': [(1, rec.id, {'state': 'cancel'})]})
 
     # función botón cancelar extendida
     def action_cancel_extend(self):
@@ -537,7 +550,7 @@ class purchase_requisition_extend(models.Model):
     @api.onchange('assignees_id')
     def action_state_assigned_to_open(self):
         if self.assignees_id:
-            self.write({'state': 'open'})
+            self.write({'state': 'assigned'})
         else:
             return
 
@@ -563,9 +576,16 @@ class purchase_requisition_extend(models.Model):
                 requisition_line.supplier_info_ids.unlink()
         self.write({'state': 'done'})
 
-    # función cambio de stock
-    def update_state_requisition(self):
+    # función cambio de estado
+    def update_state_open_requisition(self):
         self.write({'state': 'open'})  # Cambio de estado
+
+    #     Boton establecer a borrador
+    def action_draft(self):
+        self.ensure_one()
+        self.name = 'New'
+        self.write({'state': 'draft'})
+        self.write({'assignees_id': False})
 
 
 

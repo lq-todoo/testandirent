@@ -16,3 +16,10 @@ from . import stock_picking_type_extend
 from . import account_analytic_line_extend
 from . import stock_picking_transit
 from . import stock_quant_custom
+from . import purchase_account_analytic_compute
+from . import stock_production_plaque
+from . import stock_picking_move_line_extend
+
+
+
+

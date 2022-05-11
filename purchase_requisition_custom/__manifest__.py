@@ -32,11 +32,12 @@
     # any module necessary for this one to work correctly
     'depends': ['purchase_requisition',
                 'hr_holidays',
-                'purchase_stock',
                 'stock',
+                'purchase_stock',
                 'sale_stock',
                 'helpdesk_ticket_custom',
                 'web_domain_field',
+                'account'
                 ],
 
     # always loaded
@@ -57,8 +58,10 @@
         'views/stock_picking_type_extend_view.xml',
         'views/account_analytic_line_extend_view.xml',
         'views/stock_quant_custom_view.xml',
-        # 'views/report_purchaseorder_document_extend.xml'
-        # 'report/report_deliveryslip_extend.xml'
+        'views/stock_picking_move_line_extend_view.xml',
+        'views/stock_move_line_extend_view.xml',
+        'report/report_purchaseorder_document_extend.xml',
+        #'report/report_deliveryslip_extend.xml',
     ],
 
     'installable': True,
