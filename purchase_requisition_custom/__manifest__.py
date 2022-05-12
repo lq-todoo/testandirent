@@ -17,6 +17,7 @@
         15.2.0 ticket relationship with requisitions is added
         15.2.1 Restrictions are added in fields
         15.3.0 This versions contains stock movement in two steps, origin location to transit location, transit location to destination location. 
+        15.4.0 Purchase order report and delivery voucher is added.
         """,
 
     'description': """
@@ -60,6 +61,7 @@
         'views/stock_quant_custom_view.xml',
         'views/stock_picking_move_line_extend_view.xml',
         'views/stock_move_line_extend_view.xml',
+        'views/type_stock_picking_view.xml',
         'report/report_purchaseorder_document_extend.xml',
         #'report/report_deliveryslip_extend.xml',
     ],

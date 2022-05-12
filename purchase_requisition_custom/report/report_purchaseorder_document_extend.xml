@@ -20,16 +20,17 @@
             </td>
         </xpath>
         <xpath expr="//div[@id='total']" position="after">
-            <h2>Centro de costo</h2>
+            <t t-set="has_account_analytic_id" t-value="False"/>
+            <t t-set="has_account_analytic_id" t-value="o.order_line.mapped('account_analytic_id')"/>
+            <h2 t-if="has_account_analytic_id">Centro de costo</h2>
             <table class="table table-sm o_main_table">
                 <thead>
                     <tr>
-                        <th name="th_account_analytic_subtotal"><strong>Cuenta analítica</strong></th>
-                        <th name="th_taxes"><strong>Sub Total</strong></th>
+                        <th name="th_account_analytic_id" t-if="has_account_analytic_id"><strong>Cuenta analítica</strong></th>
+                        <th name="th_price_subtotal" t-if="has_account_analytic_id"><strong>Sub Total</strong></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <t t-set="account_analytic_subtotal" t-value="0"/>
                     <t t-foreach="o.x_account_analytic_cost" t-as="x_line">
                     <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
                         <td id="td_account_analytic">

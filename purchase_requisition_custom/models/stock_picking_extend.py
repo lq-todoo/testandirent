@@ -21,6 +21,8 @@ class stock_picking_extend(models.Model):
     signature_receives = fields.Binary(string='Recibe')
     signature_delivery = fields.Binary(string='Entrega')
     signature_warehouse_manager = fields.Binary(string='Responsable de almacen')
+    x_type_id = fields.Many2one(comodel_name='purchase_requisition_custom_stock_picking_type',
+                                string='Tipo', help='Indica el tipo de tranferencia de inventario')
 
     # Se crea apunte analítico
     def compute_account_analytic_cost(self):

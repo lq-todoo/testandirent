@@ -85,7 +85,6 @@
                   class="oe_highlight" data-hotkey="z" attrs="{'invisible': ['|', ['state_aprove', '!=', 5], ['state', '!=', 'to approve']]}"/>
           <button name="button_approve_extend" type="object" string="Aprobar Orden ⁽estra⁾" confirm="¿Desea aprobar esta solicitud de compra?"
                   class="oe_highlight" data-hotkey="z" attrs="{'invisible': ['|', ['state_aprove', '!=', 6], ['state', '!=', 'to approve']]}"/>
-          <button name="update_state_requisition" type="object" string="demo"/>
         </xpath>
         <xpath expr="//button[@name='button_draft']" position="replace" >
           <button name="button_draft_extend" states="cancel" string="Cambiar a borrador" type="object" data-hotkey="o"/>
