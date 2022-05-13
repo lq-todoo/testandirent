@@ -215,6 +215,14 @@ class PurchaseOrder(models.Model):
                     raise UserError(_("Unable to cancel this purchase order. You must first cancel the related vendor bills."))
         self.write({'state': 'cancel', 'mail_reminder_confirmed': False})
 
+    # Accón contabilidad analítica
+    def button_account_analytic_cost(self):
+        if self.x_account_analytic_cost:
+            return True
+        else:
+            self.compute_account_analytic_cost_delete()
+            self.compute_account_analytic_cost()
+
     # Función borrar linea
     def compute_account_analytic_cost_delete(self):
         self.write({'x_account_analytic_cost': [(5)]})
@@ -237,6 +245,7 @@ class PurchaseOrder(models.Model):
                                                             'account_analytic_id': rec2,
                                                             'price_subtotal': analytic_cost,
                                                             })]})
+
 
 
 

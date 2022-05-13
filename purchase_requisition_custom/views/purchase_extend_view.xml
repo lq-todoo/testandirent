@@ -19,6 +19,17 @@
         <xpath expr="//field[@name='date_order']" position="after">
           <field name="current_date" invisible="1"/>
         </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+          <page string="Contabilidad analítica" name="account_analytic_page">
+              <field name="x_account_analytic_cost" widget="one2many" readonly="">
+                <tree string="Purchase account analytic">
+                  <field name="id" invisible="1"/>
+                  <field name="account_analytic_id" optional="show"/>
+                  <field name="price_subtotal" optional="show"/>
+                </tree>
+              </field>
+          </page>
+        </xpath>
         <xpath expr="//field[@name='requisition_id']" position="attributes">
               <attribute name="readonly">1</attribute>
         </xpath>
@@ -92,7 +103,8 @@
         <xpath expr="//button[@name='button_cancel']" position="before" >
           <button name="button_cancel_extend" states="to approve,sent" string="Rechazar" type="object" data-hotkey="x"
           confirm="¿Desea anular esta solicitud de compra?"/>
-          <button name="compute_account_analytic_cost" string="refrecar cuentas" type="object" invisible="1"/>
+          <button name="button_account_analytic_cost" string="Recalcular" type="object" groups="purchase.group_purchase_user"
+                  invisible=""/>
         </xpath>
         <xpath expr="//button[@name='button_cancel']" position="replace" >
           <button name="button_cancel" states="draft,sent,purchase" string="Cancelar" type="object" data-hotkey="x"

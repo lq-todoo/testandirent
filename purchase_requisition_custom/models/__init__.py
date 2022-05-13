@@ -21,5 +21,3 @@ from . import stock_production_plaque
 from . import stock_picking_move_line_extend
 from . import type_stock_picking
 
-
-

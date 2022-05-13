@@ -91,10 +91,12 @@ class purchase_requisition_line_extend(models.Model):
             else:
                 rec2.product_qty = 0
 
-    # Función que escribe la descripción del producto de compra en la requisición
+    # Función concatena la descripción del rpoducto en la descripción
     @api.onchange('product_id')
     def _related_product_description_variants(self):
-        self.write({'product_description_variants': self.product_id.description_purchase})
+        for rec in self.product_id:
+            result = '[' + str(rec.default_code) + '] ' + str(rec.name) + ' - ' + str(rec.description_purchase)
+            self.write({'product_description_variants': result})
 
 
 
