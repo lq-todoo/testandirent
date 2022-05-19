@@ -7,6 +7,9 @@ class stock_picking_extend(models.Model):
     stage = fields.Integer(string='Etapa')
     account_analytic_id = fields.Many2one(comodel_name='account.analytic.account', string='Cuenta Analítica',
                                           related='location_dest_id.account_analytic_id')
+    available_origin_location = fields.Float(string='Disponible', related='product_id.free_qty',
+                                             help='Muestra la cantidad disponible que está sin reservar')
+
     standard_price = fields.Float(
         string='Costo Unitario', company_dependent=True,
         digits='Product Price',

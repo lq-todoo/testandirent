@@ -24,18 +24,26 @@
           <field name="sale_id" readonly="1" attrs="{'invisible': [('sale_id', '=', False)]}"/>
         </xpath>
         <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
-          <page string="Firmas" name="signature_page" attrs="{'invisible': [('state', '!=', 'done')]}">
+          <page string="Firmas" name="signature_page"
+                attrs="{'invisible': ['|','|','|',('state','=','draft'),('state','=','waiting'),('state','=','confirmed'),
+                ('code','=','incoming')]}">
             <group name="group_top">
               <group name="group_left">
                 <field name="signature_delivery" widget="signature"/>
+                <field name="employee_delivery_id" readonly=""/>
+                <field name="employee_delivery_job_id" readonly=""/>
               </group>
               <group name="group_right">
-                <field name="signature_receives" widget="signature"/>
+                <field name="signature_warehouse_manager" widget="signature"/>
+                <field name="employee_warehouse_id" readonly=""/>
+                <field name="employee_warehouse_job_id" readonly=""/>
               </group>
             </group>
             <group name="group_top2">
-              <group name="group_left2">
-                <field name="signature_warehouse_manager" widget="signature"/>
+              <group name="group_left2" invisible="1">
+                <field name="signature_receives" widget="signature"/>
+                <field name="employee_receives_id" readonly=""/>
+                <field name="employee_receives_job_id" readonly=""/>
               </group>
             </group>
           </page>

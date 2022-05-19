@@ -260,7 +260,9 @@
                   <field name="assignees_id"/>
               </xpath>
               <xpath expr="//field[@name='state']" position="after">
-                  <field name="purchase_order_process" groups="purchase.group_purchase_user"/>
+                  <field name="purchase_order_process" groups="purchase.group_purchase_user" invisible="1"/>
+                  <field name="purchase_order_many2many" optional="show" widget="many2many_tags"
+                         options="{'color_field': 'color'}" groups="purchase.group_purchase_user"/>
               </xpath>
           </field>
       </record>

@@ -16,6 +16,9 @@
           <field name="manager_before" invisible="1"/>
           <field name="activity_id" invisible="1"/>
         </xpath>
+        <xpath expr="//field[@name='date_order']" position="before">
+          <field name="color" invisible="1"/>
+        </xpath>
         <xpath expr="//field[@name='date_order']" position="after">
           <field name="current_date" invisible="1"/>
         </xpath>
@@ -96,6 +99,7 @@
                   class="oe_highlight" data-hotkey="z" attrs="{'invisible': ['|', ['state_aprove', '!=', 5], ['state', '!=', 'to approve']]}"/>
           <button name="button_approve_extend" type="object" string="Aprobar Orden ⁽estra⁾" confirm="¿Desea aprobar esta solicitud de compra?"
                   class="oe_highlight" data-hotkey="z" attrs="{'invisible': ['|', ['state_aprove', '!=', 6], ['state', '!=', 'to approve']]}"/>
+          <button name="get_default_color" type="object" string="Demo" invisible="1"/>
         </xpath>
         <xpath expr="//button[@name='button_draft']" position="replace" >
           <button name="button_draft_extend" states="cancel" string="Cambiar a borrador" type="object" data-hotkey="o"/>
@@ -112,5 +116,18 @@
         </xpath>
       </field>
     </record>
+
+
+<!--    <record id="purchase_order_kpis_tree_extend" model="ir.ui.view">-->
+<!--      <field name="name">purchase_order_kpis_tree_extend</field>-->
+<!--      <field name="model">purchase.order</field>-->
+<!--      <field name="inherit_id" ref='purchase.purchase_order_kpis_tree'/>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <xpath expr="//field[@name='invoice_status]" position="after">-->
+<!--&lt;!&ndash;          <field name="color" widget="color_picker" optional="show"/>&ndash;&gt;-->
+<!--        </xpath>-->
+<!--      </field>-->
+<!--    </record>-->
+
   </data>
 </odoo>

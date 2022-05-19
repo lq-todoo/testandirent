@@ -58,6 +58,10 @@ class purchase_requisition_extend(models.Model):
     purchase_order_process = fields.Boolean(string='En proceso', domain=lambda self: [
                                             ('groups_id', 'in', self.env.ref('purchase.group_purchase_user').id)],
                                             help='Indica si tiene una orden compra asociada')
+    purchase_order_many2many = fields.Many2many(comodel_name='purchase.order',
+                                        relation='x_purchase_order_purchase_requisition_rel',
+                                        column1='purchase_requisition_id', column2='purchase_order_id',
+                                        string='Ordenes de compra')
 
     # escribir de pedido con la de creación
     @api.onchange('line_ids')

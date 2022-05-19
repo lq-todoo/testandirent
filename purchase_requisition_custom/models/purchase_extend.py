@@ -1,5 +1,6 @@
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError
+from random import randint
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
@@ -30,15 +31,43 @@ class PurchaseOrder(models.Model):
     mobile_phone = fields.Char(string='Teléfono celular',
                                related='picking_type_id.default_location_dest_id.warehouse_id.employee_id.mobile_phone')
 
+    def get_default_color(self):
+        self._get_default_color()    # seleción de color por estado
+
+    # Color en ordenes de compra
+    def _get_default_color(self):
+        self.update_relate_purchase_order()     # Relación de tag de ordenes de compra con requisiciones
+        if self.state == 'draft':
+            self.write({'color': 4})
+        elif self.state == 'sent':
+            self.write({'color': 2})
+        elif self.state == 'to approve':
+            self.write({'color': 3})
+        elif self.state == 'purchase':
+            self.write({'color': 9})
+        elif self.state == 'done':
+            self.write({'color': 10})
+        elif self.state == 'cancel':
+            self.write({'color': 0})
+
+    color = fields.Integer(string='Color')
+
     # Actualizar estado requisición
     @api.onchange('partner_id')
     def update_state_requisition(self):
-        if self.requisition_id and self.requisition_state == 'assigned' or self.requisition_state == 'open':
-            requisition_state = self.env['purchase.requisition'].search([('id', '=', self.requisition_id.ids)], limit=1)
-            requisition_state.update({
-                'state': 'open',
-                'purchase_order_process': True,
-            })
+            if self.requisition_id and self.requisition_state == 'assigned' or self.requisition_state == 'open':
+                requisition_state = self.env['purchase.requisition'].search([('id', '=', self.requisition_id.ids)], limit=1)
+                requisition_state.update({
+                    'state': 'open',
+                    'purchase_order_process': True,
+                })
+
+    # relaciona la orden de compra con el campo may2many de requisiciones
+    def update_relate_purchase_order(self):
+        requisition_state = self.env['purchase.requisition'].search([('id', '=', self.requisition_id.ids)], limit=1)
+        requisition_state.update({
+            'purchase_order_many2many': [(4, self.id)],
+        })
 
     # Función que actualiza el responsable de aprobar
     @api.onchange('partner_id')
@@ -56,18 +85,35 @@ class PurchaseOrder(models.Model):
         return self.time_off
 
     # Función del boton confirmar
+    def button_confirm(self):
+        for order in self:
+            if order.state not in ['draft', 'sent']:
+                continue
+            order._add_supplier_to_product()
+            # Deal with double validation process
+            if order._approval_allowed():
+                order.button_approve()
+            else:
+                order.write({'state': 'to approve', 'color': 3})
+            if order.partner_id not in order.message_partner_ids:
+                order.message_subscribe([order.partner_id.id])
+        return True
+
+    # Función del boton confirmar extend
     def button_confirm_extend(self):
+        self._get_default_color()  # seleción de color por estado
         # Calcular costo en cuentas analiticas
         self.compute_account_analytic_cost()
         # código nuevo con condición
         if self.related_requisition == True:
             self.update_state_requisition()     # Actualizar esatdo a open en la requisición
+            self.update_relate_purchase_order()
             if self.aprove_manager and self.time_off_related == False:
                 for order in self:
                     if order.state not in ['draft', 'sent']:
                         continue
                     order._add_supplier_to_product()
-                    order.write({'state': 'to approve'})
+                    order.write({'state': 'to approve', 'color': 3})
                     # Código que crea una nueva actividad
                     model_id = self.env['ir.model']._get(self._name).id
                     create_vals = {
@@ -95,7 +141,7 @@ class PurchaseOrder(models.Model):
                     if order.state not in ['draft', 'sent']:
                         continue
                     order._add_supplier_to_product()
-                    order.write({'state': 'to approve'})
+                    order.write({'state': 'to approve', 'color': 3})
                     # Código que crea una nueva actividad
                     model_id = self.env['ir.model']._get(self._name).id
                     create_vals = {
@@ -128,6 +174,13 @@ class PurchaseOrder(models.Model):
             self.button_confirm()
 
     # Función del boton aprobación
+    def button_approve(self, force=False):
+        self = self.filtered(lambda order: order._approval_allowed())
+        self.write({'state': 'purchase', 'date_approve': fields.Datetime.now(), 'color': 9})
+        self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
+        return {}
+
+    # Función del boton aprobación extend
     def button_approve_extend(self, force=False):
         if self.related_requisition == True:
             if self.env.user.employee_id.general_manager == False and self.env.user.employee_id.active_budget == True:  # Si tiene un tope
@@ -192,8 +245,13 @@ class PurchaseOrder(models.Model):
             self.button_approve()
 
     # Botón reestableercer a borrador
+    def button_draft(self):
+        self.write({'state': 'draft', 'color': 4})
+        return {}
+
+    # Botón reestableercer a borrador extend
     def button_draft_extend(self):
-        self.write({'state': 'draft'})
+        self.button_draft()     # Función reestablecer
         # se reestablece el jefe actual
         self.write({'aprove_manager': self.requisition_id.manager_id})
         # se reestablece el jefe actual
@@ -205,15 +263,19 @@ class PurchaseOrder(models.Model):
         return {}
 
     # Boton cancelar
-    def button_cancel_extend(self):
-        #  Marca actividad como hecha de forma automatica
-        new_activity = self.env['mail.activity'].search([('id', '=', self.activity_id)], limit=1)
-        new_activity.action_feedback(feedback='Es Rechazado')
+    def button_cancel(self):
         for order in self:
             for inv in order.invoice_ids:
                 if inv and inv.state not in ('cancel', 'draft'):
                     raise UserError(_("Unable to cancel this purchase order. You must first cancel the related vendor bills."))
-        self.write({'state': 'cancel', 'mail_reminder_confirmed': False})
+        self.write({'state': 'cancel', 'mail_reminder_confirmed': False, 'color': 0})
+
+    # Boton cancelar extend
+    def button_cancel_extend(self):
+        self.button_cancel()  # Función cancelar
+        #  Marca actividad como hecha de forma automatica
+        new_activity = self.env['mail.activity'].search([('id', '=', self.activity_id)], limit=1)
+        new_activity.action_feedback(feedback='Es Rechazado')
 
     # Accón contabilidad analítica
     def button_account_analytic_cost(self):

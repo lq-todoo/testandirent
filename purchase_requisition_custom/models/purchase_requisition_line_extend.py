@@ -95,7 +95,11 @@ class purchase_requisition_line_extend(models.Model):
     @api.onchange('product_id')
     def _related_product_description_variants(self):
         for rec in self.product_id:
-            result = '[' + str(rec.default_code) + '] ' + str(rec.name) + ' - ' + str(rec.description_purchase)
+            if rec.description_purchase:
+                a = rec.description_purchase
+            else:
+                a = ''
+            result = '[' + str(rec.default_code) + '] ' + str(rec.name) + ' - ' + str(a)
             self.write({'product_description_variants': result})
 
 

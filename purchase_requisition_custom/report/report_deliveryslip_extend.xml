@@ -2,15 +2,9 @@
 <odoo>
     <template id="purchase_requisition_custom.report_delivery_document" inherit_id="stock.report_delivery_document">
         <xpath expr="//div[@class='page']" position="after">
-            <!-- Colores personalizados -->
+            <!-- background color -->
             <style>
-                .resaltado_gris {
-                background-color: #f2f2f2;
-                }
-                .resaltado_oscuro {
-                background-color: #d8d8d8;
-                }
-                .resaltado_negro {
+                .background_turquoise {
                 background-color: #009ca8;
                 }
                 th, td {
@@ -18,25 +12,31 @@
                 }
             </style>
         </xpath>
-        <!-- Lineas de operaciones -->
+        <!--                                     Lineas de operaciones                                    -->
         <xpath expr="//table[@name='stock_move_table']" position="replace">
             <table class="table table-sm" name="stock_move_table">
                 <!--   Condición mostrar o ocultar header               -->
-                <t t-set="has_ordered" t-value="False"/>
-                <t t-set="has_ordered" t-value="o.move_lines.product_uom_qty" />
-                <t t-set="has_quantity" t-value="False"/>
-                <t t-set="has_quantity" t-value="o.move_lines.quantity_done" />
-                <t t-set="has_description" t-value="False"/>
-                <t t-set="has_description" t-value="o.move_lines.description_picking" />
+                <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)"/>
+                <tr t-foreach="lines" t-as="move_lines">
+                    <t t-set="has_image" t-value="False"/>
+                    <t t-set="has_image" t-value="move_lines.product_id.image_1920" />
+                    <t t-set="has_ordered" t-value="False"/>
+                    <t t-set="has_ordered" t-value="move_lines.product_uom_qty" />
+                    <t t-set="has_quantity" t-value="False"/>
+                    <t t-set="has_quantity" t-value="move_lines.quantity_done" />
+                    <t t-set="has_description" t-value="False"/>
+                    <t t-set="has_description" t-value="move_lines.description_picking" />
+                </tr>
                 <thead>
                     <tr>
-                        <th class="resaltado_negro" colspan="6" style="color: white; text-align: center">RESUMEN DE INSUMOS</th>
+                        <th class="background_turquoise" colspan="6" style="color: white; text-align: center">RESUMEN DE INSUMOS</th>
                     </tr>
                     <tr>
                         <th name="th_sm_item" class="text-center"><strong>Item</strong></th>
+                        <!--<th name="th_sm_product" t-if="has_image" class="text-center"><strong>Imagen</strong></th>-->
                         <th name="th_sm_product" class="text-center"><strong>Producto</strong></th>
                         <th name="th_sm_ordered" t-if="has_ordered" class="text-center"><strong>Ordenado</strong></th>
-                        <th name="th_sm_quantity" t-if="has_quantity" class="text-center"><strong>Entregado</strong></th>
+                        <th name="th_sm_quantity" t-if="has_quantity or has_ordered" class="text-center"><strong>Entregado</strong></th>
                         <th name="th_sm_description" t-if="has_description" class="text-center"><strong>Descripción</strong></th>
                     </tr>
                 </thead>
@@ -48,6 +48,11 @@
                         <td class="text-center">
                             <span t-esc="item" t-options="{'widget': 'text'}"/>
                         </td>
+                        <!--<td>
+                            <p t-if="move.product_id.image_1920">
+                                <img t-att-src="image_data_uri(move.product_id.image_1920)" style="max-height: 4cm; max-width: 8cm;"/>
+                            </p>
+                        </td>-->
                         <td>
                             <span t-field="move.product_id"/>
                             <p t-if="move.description_picking != move.product_id.name and move.description_picking != move.product_id.display_name">
@@ -62,14 +67,15 @@
                             <span t-field="move.quantity_done"/>
                             <span t-field="move.product_uom"/>
                         </td>
-                        <td>
+                        <td t-if="move.description_picking">
                             <span t-field="move.description_picking"/>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </xpath>
-        <!-- Lineas de detalles operaciones -->
+
+        <!--                            Lineas de detalles operaciones                               -->
         <xpath expr="//table[@name='stock_move_line_table']" position="replace">
             <table class="table table-sm mt48" t-if="o.move_line_ids and o.state=='done'" name="stock_move_line_table">
                 <!--   Condición mostrar o ocultar header               -->
@@ -80,18 +86,18 @@
                 <!--  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Header !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  -->
                 <thead>
                     <tr>
-                        <th class="resaltado_negro" colspan="7" style="color: white; text-align: center">RELACIÓN DETALLADA DE INSUMOS</th>
+                        <th class="background_turquoise" colspan="7" style="color: white; text-align: center">RELACIÓN DETALLADA DE INSUMOS</th>
                     </tr>
                     <tr>
                         <th name="th_sm_item" class="text-center"><strong>Item</strong></th>
                         <t name="lot_serial" class="text-center" t-if="has_serial_number"><th>Lote/Serial</th></t>
-                        <t name="th_plaque" class="text-center" t-if="has_plaque_id"><th>Placa</th></t>
+<!--                        <t name="th_plaque" class="text-center" t-if="has_plaque_id"><th>Placa</th></t>-->
                         <th name="th_sml_product" class="text-center"><strong>Producto</strong></th>
                         <th name="th_sml_qty_ordered" class="text-center" t-if="not has_serial_number">
-                            <strong>Ordered</strong></th>
+                            <strong>Ordenado</strong></th>
                         <th name="th_sml_quantity" class="text-center"><strong>Entregado</strong></th>
-                        <th name="th_sm_observation" class="text-center"><strong>Observación</strong></th>
-                        <th name="th_sml_qty_chek" class="text-center"><strong>Checklist</strong></th>
+                        <th name="th_sm_observation" class="text-center">
+                            <strong>Observación</strong></th>
                     </tr>
                 </thead>
                 <!--  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Lines !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  -->
@@ -169,12 +175,18 @@
                     </t>
                 </tbody>
             </table>
+        </xpath>
 
-            <!--            Notas y firmas -->
-            <table class="table table-sm" name="stock_move_note">
+        <xpath expr="//div[@name='signature']" position="before">
+            <!--                                         Notas                                           -->
+            <!-- Optiene un valor para usar en una condición -->
+            <table class="table table-sm" name="stock_move_note" t-if="o.note">
+                <!--   Condición mostrar o ocultar header               -->
+                <t t-set="has_note" t-value="False"/>
+                <t t-set="has_note" t-value="o.note" groups="stock.group_lot_on_delivery_slip"/>
                 <thead>
                     <tr>
-                        <th class="resaltado_negro" colspan="3" style="color: white; text-align: center">NOTAS</th>
+                        <th t-if="has_note" class="background_turquoise" colspan="3" style="color: white; text-align: center">NOTAS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -183,34 +195,235 @@
                     </td>
                 </tbody>
             </table>
-            <table class="table table-sm" name="stock_move_signature">
+
+            <!--                                      Firmas                                             -->
+            <table class="table table-sm" name="stock_move_signature" t-if="o.signature_warehouse_manager or o.signature_delivery or o.code=='incoming'">
                 <thead t-if="o.state=='done'">
                     <tr>
-                        <th class="resaltado_negro" colspan="5"
+                        <th class="background_turquoise" colspan="5"
                             style="color: white; text-align: center">FIRMAS</th>
                     </tr>
-                    <tr>
-                        <th colspan="7">Como constancia de aceptación de lo anteriormente estipulado Leo, Acepto y Firmo:</th>
-                    </tr>
-                    <th class="text-center" style="size: 12px;"><strong>Entrega</strong></th>
-                    <th class="text-center" style="size: 12px;"><strong>Recibe</strong></th>
-                    <th class="text-center" style="size: 12px;"><strong>Responsable de almacen</strong></th>
                 </thead>
                 <tbody t-if="o.state=='done'">
+                    <tr>
+                        <div class="text-left">
+                            <th colspan="5">Como constancia de aceptación de lo anteriormente estipulado Leo, Acepto y Firmo:</th>
+                        </div>
+                    </tr>
+                </tbody>
+                <thead t-if="o.state=='done'">
+                    <tr>
+                        <th class="text-center" width="50%">
+                            <strong>Entrega</strong>
+                        </th>
+                        <th class="text-center" width="50%">
+                            <strong t-if="o.code!='incoming'">Responsable de almacen</strong>
+                            <strong t-if="o.code=='incoming'">Gerente responsable</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <!--                Para tipo de tranferencia interna y de entrega          -->
+                <tbody t-if="o.state=='done' and o.code!='incoming'">
                     <td>
-                        <span t-field="o.signature_delivery"/>
+                        <div class="mt32 ml64 mr4" name="signature_delivery">
+                            <div class="text-left">
+                                <strong>Firma</strong>
+                            </div>
+                            <div>
+                                <img t-att-src="image_data_uri(o.signature_delivery)" style="max-height: 5cm; max-width: 10cm;"/>
+                                <p t-if="o.employee_delivery_id">
+                                    <strong>Nombre: </strong>
+                                    <span t-field="o.employee_delivery_id"/>
+                                </p>
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        <span t-field="o.signature_receives"/>
+                        <div class="mt32 ml64 mr4" name="signature_warehouse_manager">
+                            <div class="text-left">
+                                <strong>Firma</strong>
+                            </div>
+                            <div>
+                                <img t-att-src="image_data_uri(o.signature_warehouse_manager)" style="max-height: 5cm; max-width: 10cm;"/>
+                                <p t-if="o.employee_warehouse_id">
+                                    <strong>Nombre: </strong>
+                                    <span t-field="o.employee_warehouse_id"/>
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </tbody>
+                <tbody t-if="o.state=='done' and o.code!='incoming'">
+                    <td>
+                        <div class="mt32 ml64 mr4" name="signature_delivery">
+                            <div class="text-left">
+                                <p t-if="o.employee_delivery_job_id">
+                                    <strong>Puesto de trabajo: </strong>
+                                    <span t-field="o.employee_delivery_job_id"/>
+                                </p>
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        <span t-field="o.signature_warehouse_manager"/>
+                        <div class="mt32 ml64 mr4" name="signature_warehouse_manager">
+                            <div class="text-left">
+                                 <p t-if="o.employee_warehouse_job_id">
+                                     <strong>Puesto de trabajo: </strong>
+                                     <span t-field="o.employee_warehouse_job_id"/>
+                                 </p>
+                            </div>
+                        </div>
+                    </td>
+                </tbody>
+                <!--                Para tipo de tranferencia interna, entrega  y recibo        -->
+                <thead t-if="o.state=='done' and o.code!='incoming'">
+                    <tr>
+                        <th class="text-center">
+                            <strong>Recibe</strong>
+                        </th>
+                        <th class="text-center">
+                            <strong>Gerente responsable</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody t-if="o.state=='done'">
+                    <td width="50" height="200">
+                        <div class="mt32 ml64 mr4" name="signature_ordered">
+                            <div class="text-left">
+                                <strong>Firma</strong>
+                            </div>
+                        </div>
+                    </td>
+                    <td width="50" height="200">
+                        <div class="mt32 ml64 mr4" name="signature_manager">
+                            <div class="text-left">
+                                <strong>Firma</strong>
+                            </div>
+                        </div>
+                    </td>
+                </tbody>
+                <tbody t-if="o.state=='done'">
+                    <td>
+                        <div class="mt32 ml64 mr4" name="signature_ordered_name">
+                            <div class="text-left">
+                                <strong>Nombre:</strong>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="mt32 ml64 mr4" name="signature_manager_name">
+                            <div class="text-left">
+                                <strong>Nombre:</strong>
+                            </div>
+                        </div>
+                    </td>
+                </tbody>
+                <tbody t-if="o.state=='done'">
+                    <td>
+                        <div class="mt32 ml64 mr4" name="signature_ordered_job">
+                            <div class="text-left">
+                                <strong>Puesto de trabajo:</strong>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="mt32 ml64 mr4" name="signature_manager_job">
+                            <div class="text-left">
+                                <strong>Puesto de trabajo:</strong>
+                            </div>
+                        </div>
+                    </td>
+                </tbody>
+                <!--                Para tipo de tranferencia recibo         -->
+                <thead t-if="o.state=='done' and o.code=='incoming'">
+                    <tr>
+                        <th class="text-center">
+                            <strong>Recibe</strong>
+                        </th>
+                        <th class="text-center">
+                            <strong>Responsable de almacen</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody t-if="o.state=='done' and o.code=='incoming'">
+                    <td width="50" height="200">
+                        <div class="mt32 ml64 mr4" name="signature_ordered">
+                            <div class="text-left">
+                                <strong>Firma</strong>
+                            </div>
+                        </div>
+                    </td>
+                    <td width="50" height="200">
+                        <div class="mt32 ml64 mr4" name="signature_manager">
+                            <div class="text-left">
+                                <strong>Firma</strong>
+                            </div>
+                        </div>
+                    </td>
+                </tbody>
+                <tbody t-if="o.state=='done' and o.code=='incoming'">
+                    <td>
+                        <div class="mt32 ml64 mr4" name="signature_ordered_name">
+                            <div class="text-left">
+                                <strong>Nombre:</strong>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="mt32 ml64 mr4" name="signature_manager_name">
+                            <div class="text-left">
+                                <strong>Nombre:</strong>
+                            </div>
+                        </div>
+                    </td>
+                </tbody>
+                <tbody t-if="o.state=='done' and o.code=='incoming'">
+                    <td>
+                        <div class="mt32 ml64 mr4" name="signature_ordered_job">
+                            <div class="text-left">
+                                <strong>Puesto de trabajo:</strong>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="mt32 ml64 mr4" name="signature_manager_job">
+                            <div class="text-left">
+                                <strong>Puesto de trabajo:</strong>
+                            </div>
+                        </div>
                     </td>
                 </tbody>
             </table>
         </xpath>
     </template>
 
+    <!--                                herencia lineas de operaciones detalladas extend sin serial                 -->
+    <template id="stock_report_delivery_aggregated_move_lines_extend" inherit_id="stock.stock_report_delivery_aggregated_move_lines">
+        <xpath expr="//tr[1]" position="before">
+            <t t-set="item" t-value="0"/>
+        </xpath>
+        <xpath expr="//tr[1]/td[1]" position="before">
+            <!--               conteo                -->
+            <t t-set="item" t-value="item + 1"/>
+            <!--               Imprime conteo                -->
+            <td class="text-center">
+                <span t-esc="item" t-options="{'widget': 'text'}"/>
+                <p t-if="aggregated_lines[line]['description']">
+                    <span t-esc="aggregated_lines[line]['description']"/>
+                </p>
+            </td>
+        </xpath>
+        <xpath expr="//td[@name='move_line_aggregated_qty_done']" position="after">
+            <td name="move_line_aggregated_observation" class="text-center">
+                <t t-if="aggregated_lines[line]['description']">
+                    <span t-esc="aggregated_lines[line]['description']"/>
+                </t>
+            </td>
+        </xpath>
+    </template>
+
+
+    <!--                                herencia lineas de operaciones detalladas extend con serial                 -->
     <!-- templates for easier extension + cut back on repeat code due to multiple conditionals -->
     <!-- move line(s) printing for tables -->
     <template id="stock_report_delivery_has_serial_move_line_extend">
@@ -237,11 +450,7 @@
             <span t-field="move_line.product_uom_id"/>
         </td>
         <td class="text-center">
-            <span></span>
-        </td>
-        <td class="text-center">
-            <span></span>
+            <span t-field="move_line.observation"/>
         </td>
     </template>
-
 </odoo>

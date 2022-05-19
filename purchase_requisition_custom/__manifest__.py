@@ -38,7 +38,7 @@
                 'sale_stock',
                 'helpdesk_ticket_custom',
                 'web_domain_field',
-                'account'
+                'account',
                 ],
 
     # always loaded
@@ -63,7 +63,7 @@
         'views/stock_move_line_extend_view.xml',
         'views/type_stock_picking_view.xml',
         'report/report_purchaseorder_document_extend.xml',
-        #'report/report_deliveryslip_extend.xml',
+        'report/report_deliveryslip_extend.xml',
     ],
 
     'installable': True,
