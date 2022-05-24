@@ -173,12 +173,12 @@ class PurchaseOrder(models.Model):
             # Función por defecto
             self.button_confirm()
 
-    # Función del boton aprobación
-    def button_approve(self, force=False):
-        self = self.filtered(lambda order: order._approval_allowed())
-        self.write({'state': 'purchase', 'date_approve': fields.Datetime.now(), 'color': 9})
-        self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
-        return {}
+#     # Función del boton aprobación
+#     def button_approve(self, force=False):
+#         self = self.filtered(lambda order: order._approval_allowed())
+#         self.write({'state': 'purchase', 'date_approve': fields.Datetime.now(), 'color': 9})
+#         self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
+#         return {}
 
     # Función del boton aprobación extend
     def button_approve_extend(self, force=False):
@@ -194,6 +194,7 @@ class PurchaseOrder(models.Model):
                         new_activity.action_feedback(feedback='Es aprobado')
                         # Aprueba la orden
                         self.button_approve()
+                        self.write({'color': 9})
                     else:
                         # está condición evita que repita aprobación
                         if self.aprove_manager != self.env.user.employee_id.parent_id:
@@ -238,11 +239,13 @@ class PurchaseOrder(models.Model):
                 new_activity.action_feedback(feedback='Es aprobado')
                 # aprobación gerente general
                 self.button_approve()
+                self.write({'color': 9})
             elif self.env.user.employee_id.active_budget == False:
                 raise UserError('No tiene asignado un monto de presupuesto o activa la opcíón sin tope, por favor comunicarse con el administrador para realizar asignación.')
         # Función de aprobación por defecto
         else:
             self.button_approve()
+            self.write({'color': 9})
 
     # Botón reestableercer a borrador
     def button_draft(self):
