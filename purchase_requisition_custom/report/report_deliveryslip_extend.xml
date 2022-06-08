@@ -77,7 +77,7 @@
 
         <!--                            Lineas de detalles operaciones                               -->
         <xpath expr="//table[@name='stock_move_line_table']" position="replace">
-            <table class="table table-sm mt48" t-if="o.move_line_ids and o.state=='done'" name="stock_move_line_table">
+            <table class="table table-sm mt48" t-if="o.move_line_ids and o.state=='done' or o.state=='assigned'" name="stock_move_line_table">
                 <!--   Condición mostrar o ocultar header               -->
                 <t t-set="has_serial_number" t-value="False"/>
                 <t t-set="has_serial_number" t-value="o.move_line_ids.mapped('lot_id')" groups="stock.group_lot_on_delivery_slip"/>
@@ -197,7 +197,7 @@
             </table>
 
             <!--                                      Firmas                                             -->
-            <table class="table table-sm" name="stock_move_signature" t-if="o.signature_warehouse_manager or o.signature_delivery or o.state=='done'">
+            <table class="table table-sm" name="stock_move_signature" t-if="o.signature_warehouse_manager or o.signature_delivery or o.state=='done' or o.state=='assigned'">
                 <thead>
                     <tr>
                         <th class="background_turquoise" colspan="5"
