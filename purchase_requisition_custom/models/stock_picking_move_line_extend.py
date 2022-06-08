@@ -219,7 +219,7 @@ class StockMoveLine(models.Model):
                 product_uom_id = updates.get('product_uom_id', ml.product_uom_id)
                 quantity = product_uom_id._compute_quantity(qty_done, ml.move_id.product_id.uom_id, rounding_method='HALF-UP')
                 if not ml.move_id._should_bypass_reservation(location_id):
-                    ml._free_reservation(product_id, location_id, quantity, lot_id=lot_id, plaque_id=plaque_id, package_id=package_id, owner_id=owner_id)
+                    ml._free_reservation(product_id, location_id, quantity, lot_id=lot_id, package_id=package_id, owner_id=owner_id)
                 if not float_is_zero(quantity, precision_digits=precision):
                     available_qty, in_date = Quant._update_available_quantity(product_id, location_id, -quantity, lot_id=lot_id, plaque_id=plaque_id, package_id=package_id, owner_id=owner_id,
                                                                               fee_unit=fee_unit, contract_date=contract_date, contract_date_end=contract_date_end)
@@ -233,7 +233,7 @@ class StockMoveLine(models.Model):
                             Quant._update_available_quantity(product_id, location_id, taken_from_untracked_qty, lot_id=lot_id, plaque_id=plaque_id, package_id=package_id, owner_id=owner_id,
                                                              fee_unit=fee_unit, contract_date=contract_date, contract_date_end=contract_date_end)
                             if not ml.move_id._should_bypass_reservation(location_id):
-                                ml._free_reservation(ml.product_id, location_id, untracked_qty, lot_id=False, plaque_id=False, package_id=package_id, owner_id=owner_id)
+                                ml._free_reservation(ml.product_id, location_id, untracked_qty, lot_id=False, package_id=package_id, owner_id=owner_id)
                     Quant._update_available_quantity(product_id, location_dest_id, quantity, lot_id=lot_id, plaque_id=plaque_id, package_id=result_package_id, owner_id=owner_id, in_date=in_date,
                                                      fee_unit=fee_unit, contract_date=contract_date, contract_date_end=contract_date_end)
 
@@ -356,7 +356,7 @@ class StockMoveLine(models.Model):
                 if not ml.move_id._should_bypass_reservation(ml.location_id) and float_compare(ml.qty_done, ml.product_uom_qty, precision_rounding=rounding) > 0:
                     qty_done_product_uom = ml.product_uom_id._compute_quantity(ml.qty_done, ml.product_id.uom_id, rounding_method='HALF-UP')
                     extra_qty = qty_done_product_uom - ml.product_qty
-                    ml._free_reservation(ml.product_id, ml.location_id, extra_qty, lot_id=ml.lot_id, plaque_id=ml.plaque_id, package_id=ml.package_id, owner_id=ml.owner_id, ml_ids_to_ignore=ml_ids_to_ignore)
+                    ml._free_reservation(ml.product_id, ml.location_id, extra_qty, lot_id=ml.lot_id, package_id=ml.package_id, owner_id=ml.owner_id, ml_ids_to_ignore=ml_ids_to_ignore)
                 # unreserve what's been reserved
                 if not ml.move_id._should_bypass_reservation(ml.location_id) and ml.product_id.type == 'product' and ml.product_qty:
                     try:
