@@ -472,46 +472,50 @@ class purchase_requisition_extend(models.Model):
                         raise UserError(_('You cannot confirm the blanket order without quantity.'))
                     requisition_line.create_supplier_info()
                 self.write({'state': 'ongoing'})
-            #     Crear actividad al jefe inmediato si esta disponible
-            elif self.manager_id and self.time_off_related == False:
-                self.write({'state': 'in_progress'})
-                # suscribe el contacto que es gerente del representante del proveedor en acuerdos de compra
-                self.message_subscribe(self.manager_id.user_id.partner_id.ids)
-                # Código que crea una nueva actividad
-                model_id = self.env['ir.model']._get(self._name).id
-                create_vals = {
-                    'activity_type_id': 4,
-                    'summary': 'Acuerdo de compra:',
-                    'automated': True,
-                    'note': 'Ha sido asignado para aprobar el siguiente acuerdo de compra',
-                    'date_deadline': self.current_date.date(),
-                    'res_model_id': model_id,
-                    'res_id': self.id,
-                    'user_id': self.manager_id.user_id.id
-                }
-                new_activity = self.env['mail.activity'].create(create_vals)
-                # Escribe el id de la actividad en un campo
-                self.write({'activity_id': new_activity})
-            #     Crear actividad al jefe del jefe inmediato si esta ausente
-            elif self.manager_id and self.time_off_related == True:
-                self.write({'state': 'in_progress'})
-                # suscribe el contacto que es gerente del representante del proveedor en acuerdos de compra
-                self.message_subscribe(self.manager2_id.user_id.partner_id.ids)
-                # Código que crea una nueva actividad
-                model_id = self.env['ir.model']._get(self._name).id
-                create_vals = {
-                    'activity_type_id': 4,
-                    'summary': 'Acuerdo de compra:',
-                    'automated': True,
-                    'note': 'Ha sido asignado para aprobar el siguiente acuerdo de compra, el jefe responsable se encuentra ausente',
-                    'date_deadline': self.current_date.date(),
-                    'res_model_id': model_id,
-                    'res_id': self.id,
-                    'user_id': self.manager2_id.user_id.id
-                }
-                new_activity = self.env['mail.activity'].create(create_vals)
-                # Escribe el id de la actividad en un campo
-                self.write({'activity_id': new_activity})
+            # Comprueba el tipo de acuerdo de compra, si requiere o no requiere acuerdo de compra
+            elif self.type_id.disable_approval == False:
+                #     Crear actividad al jefe inmediato si esta disponible
+                if self.manager_id and self.time_off_related == False:
+                    self.write({'state': 'in_progress'})
+                    # suscribe el contacto que es gerente del representante del proveedor en acuerdos de compra
+                    self.message_subscribe(self.manager_id.user_id.partner_id.ids)
+                    # Código que crea una nueva actividad
+                    model_id = self.env['ir.model']._get(self._name).id
+                    create_vals = {
+                        'activity_type_id': 4,
+                        'summary': 'Acuerdo de compra:',
+                        'automated': True,
+                        'note': 'Ha sido asignado para aprobar el siguiente acuerdo de compra',
+                        'date_deadline': self.current_date.date(),
+                        'res_model_id': model_id,
+                        'res_id': self.id,
+                        'user_id': self.manager_id.user_id.id
+                    }
+                    new_activity = self.env['mail.activity'].create(create_vals)
+                    # Escribe el id de la actividad en un campo
+                    self.write({'activity_id': new_activity})
+                #     Crear actividad al jefe del jefe inmediato si esta ausente
+                elif self.manager_id and self.time_off_related == True:
+                    self.write({'state': 'in_progress'})
+                    # suscribe el contacto que es gerente del representante del proveedor en acuerdos de compra
+                    self.message_subscribe(self.manager2_id.user_id.partner_id.ids)
+                    # Código que crea una nueva actividad
+                    model_id = self.env['ir.model']._get(self._name).id
+                    create_vals = {
+                        'activity_type_id': 4,
+                        'summary': 'Acuerdo de compra:',
+                        'automated': True,
+                        'note': 'Ha sido asignado para aprobar el siguiente acuerdo de compra, el jefe responsable se encuentra ausente',
+                        'date_deadline': self.current_date.date(),
+                        'res_model_id': model_id,
+                        'res_id': self.id,
+                        'user_id': self.manager2_id.user_id.id
+                    }
+                    new_activity = self.env['mail.activity'].create(create_vals)
+                    # Escribe el id de la actividad en un campo
+                    self.write({'activity_id': new_activity})
+            else:
+                self.write({'state': 'approved'})
             # Set the sequence number regarding the requisition type / Agrega la secuencia de acuerdo de compra
             if self.name == 'New':
                 if self.is_quantity_copy != 'none':

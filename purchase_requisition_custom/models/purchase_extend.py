@@ -173,13 +173,6 @@ class PurchaseOrder(models.Model):
             # Función por defecto
             self.button_confirm()
 
-#     # Función del boton aprobación
-#     def button_approve(self, force=False):
-#         self = self.filtered(lambda order: order._approval_allowed())
-#         self.write({'state': 'purchase', 'date_approve': fields.Datetime.now(), 'color': 9})
-#         self.filtered(lambda p: p.company_id.po_lock == 'lock').write({'state': 'done'})
-#         return {}
-
     # Función del boton aprobación extend
     def button_approve_extend(self, force=False):
         if self.related_requisition == True:

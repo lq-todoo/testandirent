@@ -19,7 +19,7 @@
                 <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)"/>
                 <tr t-foreach="lines" t-as="move_lines">
                     <t t-set="has_image" t-value="False"/>
-                    <t t-set="has_image" t-value="move_lines.product_id.image_1920" />
+                    <t t-set="has_image" t-value="move_lines.image_product" />
                     <t t-set="has_ordered" t-value="False"/>
                     <t t-set="has_ordered" t-value="move_lines.product_uom_qty" />
                     <t t-set="has_quantity" t-value="False"/>
@@ -33,7 +33,7 @@
                     </tr>
                     <tr>
                         <th name="th_sm_item" class="text-center"><strong>Item</strong></th>
-                        <!--<th name="th_sm_product" t-if="has_image" class="text-center"><strong>Imagen</strong></th>-->
+                        <th name="th_sm_product" t-if="has_image" class="text-center"><strong>Imagen</strong></th>
                         <th name="th_sm_product" class="text-center"><strong>Producto</strong></th>
                         <th name="th_sm_ordered" t-if="has_ordered" class="text-center"><strong>Ordenado</strong></th>
                         <th name="th_sm_quantity" t-if="has_quantity or has_ordered" class="text-center"><strong>Entregado</strong></th>
@@ -48,15 +48,15 @@
                         <td class="text-center">
                             <span t-esc="item" t-options="{'widget': 'text'}"/>
                         </td>
-                        <!--<td>
-                            <p t-if="move.product_id.image_1920">
-                                <img t-att-src="image_data_uri(move.product_id.image_1920)" style="max-height: 4cm; max-width: 8cm;"/>
+                        <td>
+                            <p t-if="move.image_product">
+                                <img t-att-src="image_data_uri(move.image_product)" style="max-height: 4cm; max-width: 8cm;"/>
                             </p>
-                        </td>-->
+                        </td>
                         <td>
                             <span t-field="move.product_id"/>
                             <p t-if="move.description_picking != move.product_id.name and move.description_picking != move.product_id.display_name">
-                                <span t-field="move.description_picking"/>
+                                <span t-field="move.product_id.name"/>
                             </p>
                         </td>
                         <td>
@@ -197,21 +197,21 @@
             </table>
 
             <!--                                      Firmas                                             -->
-            <table class="table table-sm" name="stock_move_signature" t-if="o.signature_warehouse_manager or o.signature_delivery or o.code=='incoming'">
-                <thead t-if="o.state=='done'">
+            <table class="table table-sm" name="stock_move_signature" t-if="o.signature_warehouse_manager or o.signature_delivery or o.state=='done'">
+                <thead>
                     <tr>
                         <th class="background_turquoise" colspan="5"
                             style="color: white; text-align: center">FIRMAS</th>
                     </tr>
                 </thead>
-                <tbody t-if="o.state=='done'">
+                <tbody>
                     <tr>
                         <div class="text-left">
                             <th colspan="5">Como constancia de aceptación de lo anteriormente estipulado Leo, Acepto y Firmo:</th>
                         </div>
                     </tr>
                 </tbody>
-                <thead t-if="o.state=='done'">
+                <thead>
                     <tr>
                         <th class="text-center" width="50%">
                             <strong>Entrega</strong>
@@ -223,8 +223,8 @@
                     </tr>
                 </thead>
                 <!--                Para tipo de tranferencia interna y de entrega          -->
-                <tbody t-if="o.state=='done' and o.code!='incoming'">
-                    <td>
+                <tbody t-if="o.code!='incoming'">
+                    <td t-if="o.signature_delivery">
                         <div class="mt32 ml64 mr4" name="signature_delivery">
                             <div class="text-left">
                                 <strong>Firma</strong>
@@ -238,7 +238,7 @@
                             </div>
                         </div>
                     </td>
-                    <td>
+                    <td t-if="o.signature_warehouse_manager">
                         <div class="mt32 ml64 mr4" name="signature_warehouse_manager">
                             <div class="text-left">
                                 <strong>Firma</strong>
@@ -253,7 +253,7 @@
                         </div>
                     </td>
                 </tbody>
-                <tbody t-if="o.state=='done' and o.code!='incoming'">
+                <tbody t-if="o.code!='incoming'">
                     <td>
                         <div class="mt32 ml64 mr4" name="signature_delivery">
                             <div class="text-left">
@@ -276,7 +276,7 @@
                     </td>
                 </tbody>
                 <!--                Para tipo de tranferencia interna, entrega  y recibo        -->
-                <thead t-if="o.state=='done' and o.code!='incoming'">
+                <thead t-if="o.code!='incoming'">
                     <tr>
                         <th class="text-center">
                             <strong>Recibe</strong>
@@ -286,7 +286,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody t-if="o.state=='done'">
+                <tbody>
                     <td width="50" height="200">
                         <div class="mt32 ml64 mr4" name="signature_ordered">
                             <div class="text-left">
@@ -302,7 +302,7 @@
                         </div>
                     </td>
                 </tbody>
-                <tbody t-if="o.state=='done'">
+                <tbody>
                     <td>
                         <div class="mt32 ml64 mr4" name="signature_ordered_name">
                             <div class="text-left">
@@ -318,7 +318,7 @@
                         </div>
                     </td>
                 </tbody>
-                <tbody t-if="o.state=='done'">
+                <tbody>
                     <td>
                         <div class="mt32 ml64 mr4" name="signature_ordered_job">
                             <div class="text-left">
@@ -335,7 +335,7 @@
                     </td>
                 </tbody>
                 <!--                Para tipo de tranferencia recibo         -->
-                <thead t-if="o.state=='done' and o.code=='incoming'">
+                <thead t-if="o.code=='incoming'">
                     <tr>
                         <th class="text-center">
                             <strong>Recibe</strong>
@@ -345,7 +345,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody t-if="o.state=='done' and o.code=='incoming'">
+                <tbody t-if="o.code=='incoming'">
                     <td width="50" height="200">
                         <div class="mt32 ml64 mr4" name="signature_ordered">
                             <div class="text-left">
@@ -361,7 +361,7 @@
                         </div>
                     </td>
                 </tbody>
-                <tbody t-if="o.state=='done' and o.code=='incoming'">
+                <tbody t-if="o.code=='incoming'">
                     <td>
                         <div class="mt32 ml64 mr4" name="signature_ordered_name">
                             <div class="text-left">
@@ -377,7 +377,7 @@
                         </div>
                     </td>
                 </tbody>
-                <tbody t-if="o.state=='done' and o.code=='incoming'">
+                <tbody t-if="o.code=='incoming'">
                     <td>
                         <div class="mt32 ml64 mr4" name="signature_ordered_job">
                             <div class="text-left">
@@ -442,7 +442,7 @@
                 <t t-set="description" t-value="move_line.move_id.description_picking"/>
             </t>
             <p t-if="description !='' and description != move_line.product_id.name">
-                <span t-esc="description"/>
+                <span t-esc="move_line.product_id.name"/>
             </p>
         </td>
         <td class="text-center" name="move_line_lot_qty_done">

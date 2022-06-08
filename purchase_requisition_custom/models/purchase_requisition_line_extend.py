@@ -6,6 +6,7 @@ import json
 class purchase_requisition_line_extend(models.Model):
     _inherit = 'purchase.requisition.line'
 
+    image_product = fields.Binary(string='Imagen', related='product_id.image_1920')
     product_qty = fields.Float(string='Quantity', digits='Product Unit of Measure', compute='_compute_product_qty')
     available_quantity_total = fields.Float(string='Stock', related='product_id.free_qty',
                                  help='Muestra la cantidad disponible que está sin reservar')
@@ -33,8 +34,9 @@ class purchase_requisition_line_extend(models.Model):
     warehouse_id = fields.Many2one(comodel_name='stock.warehouse', string='A almacen',
                                    domain="[('usage', '=', 'supplier'), ('available_requisition', '=', 'True')]", help='Almacen a mover')
     observations = fields.Text(string='Observaciones')
-    x_project = fields.Many2one(comodel_name='helpdesk_project', string='Proyecto', required="True",
+    x_project = fields.Many2one(comodel_name='helpdesk_project', string='Proyecto',
                                 help='El proyecto está relacionado con su respectivo centro de costo')
+    account_analytic_id = fields.Many2one('account.analytic.account', string='Analytic Account')
 
     # Contabilidad analítica
     @api.onchange('default_location_dest_id')
