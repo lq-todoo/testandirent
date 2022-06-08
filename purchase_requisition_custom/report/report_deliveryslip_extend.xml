@@ -33,7 +33,7 @@
                     </tr>
                     <tr>
                         <th name="th_sm_item" class="text-center"><strong>Item</strong></th>
-                        <th name="th_sm_product" t-if="has_image" class="text-center"><strong>Imagen</strong></th>
+                        <th name="th_sm_image" class="text-center"><strong>Imagen</strong></th>
                         <th name="th_sm_product" class="text-center"><strong>Producto</strong></th>
                         <th name="th_sm_ordered" t-if="has_ordered" class="text-center"><strong>Ordenado</strong></th>
                         <th name="th_sm_quantity" t-if="has_quantity or has_ordered" class="text-center"><strong>Entregado</strong></th>
