@@ -243,7 +243,7 @@ class stock_picking_extend(models.Model):
         for rec in self.move_line_ids_without_package:
             rec.lot_id.compute_plaque_id()
         # Crea registro de cuenta analiticas
-        self.compute_account_analytic_cost()
+        #self.compute_account_analytic_cost()
         return True
 
 
