@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_expense_view_form_extend" model="ir.ui.view">
+            <field name="name">hr_expense_view_form_extend</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="identification_id"/>
+                </xpath>
+                <xpath expr="//field[@name='analytic_account_id']" position="after">
+                    <field name="code_analytic_account_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_expense_view_expenses_analysis_tree_extend" model="ir.ui.view">
+            <field name="name">hr_expense_view_expenses_analysis_tree_extend</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_expenses_analysis_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="identification_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
