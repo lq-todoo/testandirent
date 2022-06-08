@@ -17,7 +17,7 @@
                     <field name="plaque_id" optional="show" readonly="1"/>
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="after">
-                    <field name="fee_unit" optional="show"/>
+                    <field name="fee_unit" optional="show" readonly="1"/>
                     <field name="contract_date" optional="hide" readonly="1"/>
                     <field name="contract_date_end" optional="hide" readonly="1"/>
                 </xpath>
@@ -33,7 +33,7 @@
                     <field name="plaque_id" optional="show" readonly="1"/>
                 </xpath>
                 <xpath expr="//field[@name='product_uom_id']" position="after">
-                    <field name="fee_unit" optional="show"/>
+                    <field name="fee_unit" optional="show" readonly="1"/>
                     <field name="contract_date" optional="hide" invisible=""/>
                     <field name="contract_date_end" optional="hide" invisible=""/>
                 </xpath>
