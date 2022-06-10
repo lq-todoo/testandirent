@@ -42,7 +42,7 @@
                                     <td t-if="line.reference" style="text-center">
                                         <span t-field="line.reference"/>
                                     </td>
-                                    <td>
+                                    <td t-if="line.unit_amount">
                                         <span t-field="line.unit_amount"/>
                                     </td>
                                     <td t-if="line.tax_ids">
