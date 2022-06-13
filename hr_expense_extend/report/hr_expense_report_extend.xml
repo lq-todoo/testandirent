@@ -18,13 +18,14 @@
                             </tr>
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Name</th>
-                                    <th t-if="has_ref" class="text-center">Ref.</th>
-                                    <th t-if="has_unit_amount">Unit Price</th>
-                                    <th t-if="has_tax_ids">Taxes</th>
-                                    <th class="text-center">Qty</th>
-                                    <th class="text-right">Price</th>
+                                    <th>Fecha</th>
+                                    <th>Nombre</th>
+                                    <th t-if="has_ref">Ref.</th>
+                                    <th t-if="has_analytic_account_id">Cuenta Analítica</th>
+                                    <th t-if="has_unit_amount">Precio Unitario</th>
+                                    <th t-if="has_tax_ids">Impuestos</th>
+                                    <th class="text-center">Cantidad</th>
+                                    <th class="text-right">Precio</th>
                                     <th t-if="o.is_multiple_currency" class="text-right">Price in Company Currency</th>
                                 </tr>
                             </thead>
@@ -36,11 +37,11 @@
                                         <span t-field="line.description"/><br/>
                                         <span t-field="line.analytic_account_id.name"/>
                                     </td>
-                                    <td t-if="line.tax_ids" style="text-center">
-                                        <span t-field="line.analytic_account_id"/>
-                                    </td>
                                     <td t-if="line.reference" style="text-center">
                                         <span t-field="line.reference"/>
+                                    </td>
+                                    <td t-if="line.analytic_account_id" style="text-center">
+                                        <span t-field="line.analytic_account_id"/>
                                     </td>
                                     <td t-if="line.unit_amount">
                                         <span t-field="line.unit_amount"/>
