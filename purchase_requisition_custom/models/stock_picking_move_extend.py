@@ -195,7 +195,7 @@ class stock_picking_extend(models.Model):
                                                             ml.location_dest_id == move.location_dest_id and
                                                             ml.picking_id == move.picking_id and
                                                             not ml.lot_id and
-                                                            not ml.plaque_id_id and
+                                                            not ml.plaque_id and
                                                             not ml.package_id and
                                                             not ml.owner_id)
                     if to_update:
