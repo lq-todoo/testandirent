@@ -348,6 +348,38 @@
                                                         </label>
                                                     </div>
                                                 </div>
+                                                <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_122" name="tag_ids" value="122" required=""/>
+                                                        <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_122" style="font-weight: normal">
+                                                            Usuarios
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_123" name="tag_ids" value="123" required=""/>
+                                                        <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_123" style="font-weight: normal">
+                                                            Acompañamiento
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_124" name="tag_ids" value="124" required=""/>
+                                                        <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_124" style="font-weight: normal">
+                                                            Fumigación
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="checkbox col-12 col-lg-4 col-md-6">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="s_website_form_input form-check-input" id="helpdesk_tag_125" name="tag_ids" value="125" required=""/>
+                                                        <label class="form-check-label s_website_form_check_label" for="helpdesk_tag_125" style="font-weight: normal">
+                                                            SST
+                                                        </label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
