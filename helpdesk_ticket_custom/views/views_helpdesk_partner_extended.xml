@@ -9,10 +9,12 @@
       <field name="arch" type="xml">
         <xpath expr="/form[1]/sheet[1]/group[1]/group[1]/field[1]" position="after">
           <field name="x_ticket_show" widget="boolean_toggle"/>
+          <field name="project_domain" invisible="1"/>
         </xpath>
         <xpath expr="//page[@name='internal_notes']" position="after">
           <page string="Helpdesk">
-            <field name="x_project" options="{'no_create':true}"/>
+            <field name="x_project" options="{'no_create':true}" invisible="1"/>
+            <field name="project" domain="project_domain" options="{'no_create':true}"/>
           </page>
         </xpath>
         <xpath expr="//form[1]/sheet[1]/notebook[1]/page[not(@name)][1]" position="attributes">

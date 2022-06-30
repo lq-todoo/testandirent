@@ -8,7 +8,8 @@
       <field name="arch" type="xml">
         <xpath expr="//sheet/notebook/page" position="after">
           <page string="Helpdesk">
-            <field name="x_project" options="{'no_create':true}"/>
+            <field name="x_project" options="{'no_create':true}" invisible="1"/>
+            <field name="project" options="{'no_create':true}"/>
           </page>
         </xpath>
         <xpath expr="//form[1]/sheet[1]/div[not(@name)][2]/group[1]/field[@name='partner_id']" position="after">

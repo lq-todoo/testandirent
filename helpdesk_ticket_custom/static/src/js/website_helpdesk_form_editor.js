@@ -39,15 +39,9 @@ FormEditorRegistry.add('create_ticket', {
         relation: 'helpdesk.team',
         string: _t('Helpdesk Team'),
     }, {
-        name: 'tag_ids',
-        type: 'many2many',
-        relation: 'tag_ids',
-        string: _t('Tag'),
-        title: _t('Tag'),
-    }, {
         name: 'projects',
         type: 'many2one',
-        relation: 'helpdesk_project',
+        relation: 'project.project',
         string: _t('Proyecto'),
         title: _t('Proyecto'),
     }, {

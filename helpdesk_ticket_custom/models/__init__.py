@@ -8,5 +8,7 @@ from . import helpdesk_task_extended
 from . import helpdesk_team_extended
 from . import helpdesk_ticket_extended
 from . import helpdesk_partner_extended
+from . import project_custom
+from . import project_location
 
 

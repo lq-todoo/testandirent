@@ -28,6 +28,7 @@
         15.5.0 Team grouping is added to the web portal
         15.1.1 bug fix filter all on website
         15.2.0 The family and subgroup field is hidden and the type field is included in the website
+        15.3.0 The helpdesk module is related to projects
     """,
 
     'author': "Andirent  Author: Julián Toscano",
@@ -42,6 +43,7 @@
                 'helpdesk_fsm',
                 'website_helpdesk_form',
                 'contacts',
+                'project',
                 ],
 
     # always loaded
@@ -58,6 +60,8 @@
         'views/views_helpdesk_users_extended.xml',
         'views/helpdesk_templates_o.xml',
         'views/helpdesk_portal_templates.xml',
+        'views/project_inherit_view.xml',
+        'views/views_project_location.xml',
     ],
     'installable': True,
     'application': True,

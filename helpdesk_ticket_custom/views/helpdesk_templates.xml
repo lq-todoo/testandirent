@@ -387,7 +387,7 @@
                                                 <span class="s_website_form_mark">*</span>
                                             </label>
                                             <div class="col-sm">
-                                                <select class="form-control s_website_form_input" name="x_project" id="helpdesk_project"
+                                                <select class="form-control s_website_form_input" name="project" id="helpdesk_project"
                                                         style="" required="">
                                                     <option value="">&#45;&#45; Seleccione &#45;&#45;</option>
                                                     <t t-foreach="projects or []" t-as="pry">

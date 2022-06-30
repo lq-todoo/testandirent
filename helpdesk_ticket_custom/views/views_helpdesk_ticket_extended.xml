@@ -16,7 +16,9 @@
               <field name="ticket_type" widget="radio" options="{&quot;horizontal&quot;:true}"/>
               <field name="x_visibility_related" attrs="{'invisible':True}"/>
               <field name="x_classification" attrs="{'invisible': [['x_visibility_related', '!=', True]]}"/>
-              <field name="x_project" options="{'no_create':true, 'no_open':true}"/>
+              <field name="x_project" options="{'no_create':true, 'no_open':true}" invisible="1"/>
+              <field name="project_domain" options="{'no_create':true, 'no_open':true}" invisible="1"/>
+              <field name="project" domain="project_domain" options="{'no_create':true, 'no_open':true}" required="1"/>
               <field name="current_location"/>
               <field name="location"/>
               <field name="x_family" options="{'no_create':true, 'no_open':true}" invisible="1"/>
@@ -40,6 +42,7 @@
           <xpath expr="//field[@name='partner_id']" position="attributes">
               <attribute name="options">{"no_create":true, "no_open":true}</attribute>
               <attribute name="domain">[["x_ticket_show","=",True]]</attribute>
+              <attribute name="required">1</attribute>
           </xpath>
           <xpath expr="//field[@name='tag_ids']" position="attributes">
               <attribute name="required">1</attribute>
