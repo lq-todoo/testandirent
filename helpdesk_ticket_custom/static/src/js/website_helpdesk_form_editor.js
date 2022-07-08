@@ -47,7 +47,7 @@ FormEditorRegistry.add('create_ticket', {
     }, {
         name: 'ticket_type_id',
         type: 'many2one',
-        relation: 'ticket_type_id',
+        relation: 'helpdesk.ticket.type',
         string: _t('Type'),
         title: _t('Type'),
     }, {
