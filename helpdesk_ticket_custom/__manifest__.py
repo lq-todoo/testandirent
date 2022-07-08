@@ -62,6 +62,7 @@
         'views/helpdesk_portal_templates.xml',
         'views/project_inherit_view.xml',
         'views/views_project_location.xml',
+        'views/helpdesk_custom_views.xml',
     ],
     'installable': True,
     'application': True,
