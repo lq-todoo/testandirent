@@ -414,7 +414,7 @@
                                                 <span class="s_website_form_mark">*</span>
                                             </label>
                                             <div class="col-sm">
-                                                <select class="form-control s_website_form_input" name="helpdesk_ticket_type_id" id="helpdesk_ticket_type_id"
+                                                <select class="form-control s_website_form_input" name="ticket_type_id" id="helpdesk_ticket_type_id"
                                                         style="" required="">
                                                     <option value="">&#45;&#45; Seleccione &#45;&#45;</option>
                                                     <t t-foreach="ticket_type_id or []" t-as="type">
