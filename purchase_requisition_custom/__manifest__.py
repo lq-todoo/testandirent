@@ -69,6 +69,7 @@
         'report/report_purchaseorder_document_extend.xml',
         'report/report_deliveryslip_extend.xml',
         'wizard/stock_assign_serial_views_extend.xml',
+        'views/product_category_extend.xml',
     ],
 
     'installable': True,
